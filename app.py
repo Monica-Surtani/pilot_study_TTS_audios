@@ -419,9 +419,16 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
                     value = st.session_state.annotations[idx][global_idx]
 
                     label = f"🔴 {word}" if value == 1 else word
-
-                    if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
-                        st.session_state.annotations[idx][global_idx] = 1 - value
+                    if st.button(word, key=f"{idx}_{global_idx}", use_container_width=True):
+                    
+                        current = st.session_state.annotations[idx][global_idx]
+                        st.session_state.annotations[idx][global_idx] = 1 - current
+                    
+                    value = st.session_state.annotations[idx][global_idx]
+                    
+                    label = f"🔴 {word}" if value == 1 else word
+                    
+                    st.write(label)
                         # save_annotations()
                         # st.rerun()
 
