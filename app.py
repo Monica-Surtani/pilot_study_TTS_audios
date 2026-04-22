@@ -22,39 +22,70 @@ def save_participant(name, email, gender, mother_tongue, native_place, proficien
 def save_annotations():
     sheet = get_gsheet().worksheet("annotations")
 
-    # Get all existing data
+    # Get existing data
     data_all = sheet.get_all_values()
 
-    # Keep header
-    header = data_all[0]
+    # Header
+    header = ["email", "audio_idx", "labels"]
 
-    # Filter out current user's old data
+    # Keep rows from other users only
     new_data = [header]
 
     for row in data_all[1:]:
-        if row[0] != email:   # column 0 = email
+        if row[0] != email:
             new_data.append(row)
 
-    # Clear sheet and rewrite filtered data
+    # Clear and rewrite
     sheet.clear()
     sheet.append_rows(new_data)
 
-    # Now add fresh annotations
+    # Add fresh data (ONLY per audio)
     rows = []
 
     for audio_idx, labels in st.session_state.annotations.items():
-        words = data[audio_idx]["words"]
-
-        for word_idx, label in enumerate(labels):
-            rows.append([
-                email,
-                audio_idx,
-                word_idx,
-                words[word_idx],
-                label
-            ])
+        rows.append([
+            email,
+            audio_idx,
+            str(labels)   # store full list
+        ])
 
     sheet.append_rows(rows)
+# def save_annotations():
+#     sheet = get_gsheet().worksheet("annotations")
+
+#     # Get all existing data
+#     data_all = sheet.get_all_values()
+
+#     # Keep header
+#     header = data_all[0]
+
+#     # Filter out current user's old data
+#     new_data = [header]
+
+#     for row in data_all[1:]:
+#         if row[0] != email:   # column 0 = email
+#             new_data.append(row)
+
+#     # Clear sheet and rewrite filtered data
+#     sheet.clear()
+#     sheet.append_rows(new_data)
+
+#     # Now add fresh annotations
+#     rows = []
+
+#     for audio_idx, labels in st.session_state.annotations.items():
+#         words = data[audio_idx]["words"]
+
+#         for word_idx, label in enumerate(labels):
+#             rows.append([
+#                 email,
+#                 audio_idx,
+#                 word_idx,
+#                 words[word_idx],
+#                 label
+#             ])
+
+#     sheet.append_rows(rows)
 # def save_annotations():
 #     sheet = get_gsheet().worksheet("annotations")
 
@@ -391,8 +422,8 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 
                     if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
                         st.session_state.annotations[idx][global_idx] = 1 - value
-                        save_annotations()
-                        st.rerun()
+                        # save_annotations()
+                        # st.rerun()
 
         st.divider()
 
