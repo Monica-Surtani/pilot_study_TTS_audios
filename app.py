@@ -89,17 +89,34 @@ if email and email not in participants_df["email"].values:
         "English Proficiency",
         ["Beginner","Intermediate","Advanced","Professional"]
     )
+    # if st.button("Register"):
+    
+    #     save_participant(name, email, gender, mother_tongue, native_place, proficiency)
+    
+    #     st.session_state["logged_in"] = True
+    #     st.session_state["email"] = email
+    
+    #     st.success("Registered successfully!")
+    #     st.rerun()
 
+    # if st.button("Register"):
+    #     new = pd.DataFrame([{
+    #         "name": name,
+    #         "email": email,
+    #         "gender": gender,
+    #         "mother_tongue": mother_tongue,
+    #         "native_place": native_place,
+    #         "proficiency": proficiency
+    #     }])
     if st.button("Register"):
-        new = pd.DataFrame([{
-            "name": name,
-            "email": email,
-            "gender": gender,
-            "mother_tongue": mother_tongue,
-            "native_place": native_place,
-            "proficiency": proficiency
-        }])
-
+    
+        save_participant(name, email, gender, mother_tongue, native_place, proficiency)
+    
+        st.session_state["logged_in"] = True
+        st.session_state["email"] = email
+    
+        st.success("Registered successfully!")
+        st.rerun()
         # participants_df = pd.concat([participants_df, new], ignore_index=True)
         # save_participant(name, email, gender, mother_tongue, native_place, proficiency)
         save_participant(name, email, gender, mother_tongue, native_place, proficiency)
@@ -110,7 +127,8 @@ if email and email not in participants_df["email"].values:
 # -------------------------------
 # MAIN APP
 # -------------------------------
-if email and email in participants_df["email"].values:
+if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
+   (email and email in participants_df["email"].values):
 
     st.success("Welcome back!")
 
