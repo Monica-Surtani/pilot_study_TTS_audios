@@ -406,21 +406,24 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         st.audio(item["audio_path"])
         st.write("")
     
-        for row_start in range(0, len(words), WORDS_PER_ROW):
+        for i, (col, word) in enumerate(zip(cols, row_words)):
+        global_idx = row_start + i
     
-            row_words = words[row_start:row_start+WORDS_PER_ROW]
-            cols = st.columns(len(row_words))
+        with col:
+            key = f"{idx}_{global_idx}"
     
-            for i, (col, word) in enumerate(zip(cols, row_words)):
-                global_idx = row_start + i
+            # Initialize checkbox state ONLY once
+            if key not in st.session_state:
+                st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
     
-                with col:
-                    value = st.session_state.annotations[idx][global_idx]
+            # Checkbox UI
+            checked = st.checkbox(word, key=key)
     
-                    label = f"🔴 {word}" if value == 1 else word
+            # Sync back to annotations
+            st.session_state.annotations[idx][global_idx] = int(checked)
     
-                    if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
-                        st.session_state.annotations[idx][global_idx] = 1 - st.session_state.annotations[idx][global_idx]
+                    # if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
+                    #     st.session_state.annotations[idx][global_idx] = 1 - st.session_state.annotations[idx][global_idx]
 
     # WORDS_PER_ROW = 4
 
