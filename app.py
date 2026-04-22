@@ -6,6 +6,7 @@ from google.oauth2.service_account import Credentials
 
 
 
+
 # -------------------------------
 # Files
 # -------------------------------
@@ -234,12 +235,12 @@ if email and email in participants_df["email"].values:
                 "https://www.googleapis.com/auth/drive"
             ],
         )
-
-    client = gspread.authorize(creds)
-    return client.open("ANNOTATION_DATA")
-
-    client = gspread.authorize(creds)
-    return client.open("ANNOTATION_DATA")
+    
+        client = gspread.authorize(creds)
+        return client.open("ANNOTATION_DATA")
+    
+        client = gspread.authorize(creds)
+        return client.open("ANNOTATION_DATA")
 
     def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
         sheet = get_gsheet().worksheet("participants")
