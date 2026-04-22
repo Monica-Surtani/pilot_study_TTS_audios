@@ -274,39 +274,39 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # )
     # client = gspread.authorize(creds)
     # return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
-    def get_gsheet():
-        creds = Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"],
-            scopes=[
-                "https://www.googleapis.com/auth/spreadsheets",
-                "https://www.googleapis.com/auth/drive"
-            ],
-        )
+    # def get_gsheet():
+    #     creds = Credentials.from_service_account_info(
+    #         st.secrets["gcp_service_account"],
+    #         scopes=[
+    #             "https://www.googleapis.com/auth/spreadsheets",
+    #             "https://www.googleapis.com/auth/drive"
+    #         ],
+    #     )
     
-        client = gspread.authorize(creds)
-        return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
+    #     client = gspread.authorize(creds)
+    #     return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
     
-        # client = gspread.authorize(creds)
-        # return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
+    #     # client = gspread.authorize(creds)
+    #     # return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
 
-    def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
-        sheet = get_gsheet().worksheet("participants")
-        sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+    # def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
+    #     sheet = get_gsheet().worksheet("participants")
+    #     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
     
-    def save_annotations():
-        sheet = get_gsheet().worksheet("annotations")
+    # def save_annotations():
+    #     sheet = get_gsheet().worksheet("annotations")
     
-        for audio_idx, labels in st.session_state.annotations.items():
-            words = data[audio_idx]["words"]
+    #     for audio_idx, labels in st.session_state.annotations.items():
+    #         words = data[audio_idx]["words"]
     
-            for word_idx, label in enumerate(labels):
-                sheet.append_row([
-                    email,
-                    audio_idx,
-                    word_idx,
-                    words[word_idx],
-                    label
-                ])
+    #         for word_idx, label in enumerate(labels):
+    #             sheet.append_row([
+    #                 email,
+    #                 audio_idx,
+    #                 word_idx,
+    #                 words[word_idx],
+    #                 label
+    #             ])
 
     # -------------------------------
     # UI
