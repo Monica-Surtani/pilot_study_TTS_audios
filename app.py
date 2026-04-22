@@ -216,6 +216,16 @@ if email and email in participants_df["email"].values:
     #     annotations_df = pd.concat([annotations_df, new_df], ignore_index=True)
 
     #     save_annotations()
+    # def get_gsheet():
+    # creds = Credentials.from_service_account_info(
+    #     st.secrets["gcp_service_account"],
+    #     scopes=[
+    #         "https://www.googleapis.com/auth/spreadsheets",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ],
+    # )
+    # client = gspread.authorize(creds)
+    # return client.open("ANNOTATION_DATA")
     def get_gsheet():
     creds = Credentials.from_service_account_info(
         st.secrets["gcp_service_account"],
@@ -224,6 +234,7 @@ if email and email in participants_df["email"].values:
             "https://www.googleapis.com/auth/drive"
         ],
     )
+
     client = gspread.authorize(creds)
     return client.open("ANNOTATION_DATA")
 
