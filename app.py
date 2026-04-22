@@ -391,39 +391,29 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         st.session_state.annotations = {}
     
     for idx, item in enumerate(data):
-    
-        words = item["words"]
-    
-        if idx not in st.session_state.annotations:
-            st.session_state.annotations[idx] = [0]*len(words)
-    
-        total = len(words)
-        selected = sum(st.session_state.annotations[idx])
-    
-        st.markdown(f"### Audio {idx+1} ({total} words)")
-        st.progress(selected / total)
-    
-        st.audio(item["audio_path"])
-        st.write("")
-    
+
+    words = item["words"]
+
+    if idx not in st.session_state.annotations:
+        st.session_state.annotations[idx] = [0]*len(words)
+
+    for row_start in range(0, len(words), WORDS_PER_ROW):
+
+        row_words = words[row_start:row_start+WORDS_PER_ROW]
+        cols = st.columns(len(row_words))
+
         for i, (col, word) in enumerate(zip(cols, row_words)):
-        global_idx = row_start + i
-    
-        with col:
-            key = f"{idx}_{global_idx}"
-    
-            # Initialize checkbox state ONLY once
-            if key not in st.session_state:
-                st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
-    
-            # Checkbox UI
-            checked = st.checkbox(word, key=key)
-    
-            # Sync back to annotations
-            st.session_state.annotations[idx][global_idx] = int(checked)
-    
-                    # if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
-                    #     st.session_state.annotations[idx][global_idx] = 1 - st.session_state.annotations[idx][global_idx]
+            global_idx = row_start + i
+
+            with col:
+                key = f"{idx}_{global_idx}"
+
+                if key not in st.session_state:
+                    st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
+
+                checked = st.checkbox(word, key=key)
+
+                st.session_state.annotations[idx][global_idx] = int(checked)
 
     # WORDS_PER_ROW = 4
 
