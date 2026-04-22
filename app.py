@@ -386,53 +386,70 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # -------------------------------
     WORDS_PER_ROW = 4
 
-    for idx, item in enumerate(data):
+    for row_start in range(0, len(words), WORDS_PER_ROW):
+    
+        row_words = words[row_start:row_start+WORDS_PER_ROW]
+        cols = st.columns(len(row_words))
+    
+        for i, (col, word) in enumerate(zip(cols, row_words)):
+            global_idx = row_start + i
+    
+            with col:
+                value = st.session_state.annotations[idx][global_idx]
+    
+                label = f"🔴 {word}" if value == 1 else word
+    
+                if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
+                    st.session_state.annotations[idx][global_idx] = 1 - value
+    # WORDS_PER_ROW = 4
 
-        words = item["words"]
+    # for idx, item in enumerate(data):
 
-        # Ensure correct length
-        if idx not in st.session_state.annotations:
-            st.session_state.annotations[idx] = [0]*len(words)
-        elif len(st.session_state.annotations[idx]) != len(words):
-            st.session_state.annotations[idx] = [0]*len(words)
+    #     words = item["words"]
 
-        total = len(words)
-        selected = sum(st.session_state.annotations[idx])
+    #     # Ensure correct length
+    #     if idx not in st.session_state.annotations:
+    #         st.session_state.annotations[idx] = [0]*len(words)
+    #     elif len(st.session_state.annotations[idx]) != len(words):
+    #         st.session_state.annotations[idx] = [0]*len(words)
 
-        st.markdown(f"### Audio {idx+1} ({total} words)")
-        st.progress(selected / total)
+    #     total = len(words)
+    #     selected = sum(st.session_state.annotations[idx])
 
-        st.audio(item["audio_path"])
-        st.write("")
+    #     st.markdown(f"### Audio {idx+1} ({total} words)")
+    #     st.progress(selected / total)
 
-        # WORD GRID (stable)
-        for row_start in range(0, len(words), WORDS_PER_ROW):
+    #     st.audio(item["audio_path"])
+    #     st.write("")
 
-            row_words = words[row_start:row_start+WORDS_PER_ROW]
-            cols = st.columns(len(row_words))
+    #     # WORD GRID (stable)
+    #     for row_start in range(0, len(words), WORDS_PER_ROW):
 
-            for i, (col, word) in enumerate(zip(cols, row_words)):
-                global_idx = row_start + i
+    #         row_words = words[row_start:row_start+WORDS_PER_ROW]
+    #         cols = st.columns(len(row_words))
 
-                with col:
+    #         for i, (col, word) in enumerate(zip(cols, row_words)):
+    #             global_idx = row_start + i
 
-                    value = st.session_state.annotations[idx][global_idx]
+    #             with col:
 
-                    label = f"🔴 {word}" if value == 1 else word
-                    if st.button(word, key=f"{idx}_{global_idx}", use_container_width=True):
+    #                 value = st.session_state.annotations[idx][global_idx]
+
+    #                 label = f"🔴 {word}" if value == 1 else word
+    #                 if st.button(word, key=f"{idx}_{global_idx}", use_container_width=True):
                     
-                        current = st.session_state.annotations[idx][global_idx]
-                        st.session_state.annotations[idx][global_idx] = 1 - current
+    #                     current = st.session_state.annotations[idx][global_idx]
+    #                     st.session_state.annotations[idx][global_idx] = 1 - current
                     
-                    value = st.session_state.annotations[idx][global_idx]
+    #                 value = st.session_state.annotations[idx][global_idx]
                     
-                    label = f"🔴 {word}" if value == 1 else word
+    #                 label = f"🔴 {word}" if value == 1 else word
                     
-                    st.write(label)
-                        # save_annotations()
-                        # st.rerun()
+    #                 st.write(label)
+    #                     # save_annotations()
+    #                     # st.rerun()
 
-        st.divider()
+        # st.divider()
 
     # -------------------------------
     # Submit
