@@ -26,14 +26,21 @@ def save_annotations():
     for audio_idx, labels in st.session_state.annotations.items():
         words = data[audio_idx]["words"]
 
-        for word_idx, label in enumerate(labels):
-            sheet.append_row([
-                email,
-                audio_idx,
-                word_idx,
-                words[word_idx],
-                label
-            ])
+        rows = []
+        
+        for audio_idx, labels in st.session_state.annotations.items():
+            words = data[audio_idx]["words"]
+        
+            for word_idx, label in enumerate(labels):
+                rows.append([
+                    email,
+                    audio_idx,
+                    word_idx,
+                    words[word_idx],
+                    label
+                ])
+        
+        sheet.append_rows(rows)
 
 
 # -------------------------------
