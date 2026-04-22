@@ -5,6 +5,35 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 
+def get_gsheet():
+    creds = Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"],
+        scopes=[
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ],
+    )
+    client = gspread.authorize(creds)
+    return client.open_by_key("PASTE_YOUR_SHEET_ID")
+
+def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
+    sheet = get_gsheet().worksheet("participants")
+    sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+
+def save_annotations():
+    sheet = get_gsheet().worksheet("annotations")
+
+    for audio_idx, labels in st.session_state.annotations.items():
+        words = data[audio_idx]["words"]
+
+        for word_idx, label in enumerate(labels):
+            sheet.append_row([
+                email,
+                audio_idx,
+                word_idx,
+                words[word_idx],
+                label
+            ])
 
 
 # -------------------------------
