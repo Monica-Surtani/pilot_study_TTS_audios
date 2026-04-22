@@ -395,9 +395,9 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 
         # Ensure correct length
         if idx not in st.session_state.annotations:
-            st.session_state.annotations[idx] = [0]*len(words)
-        elif len(st.session_state.annotations[idx]) != len(words):
-            st.session_state.annotations[idx] = [0]*len(words)
+        #     st.session_state.annotations[idx] = [0]*len(words)
+        # elif len(st.session_state.annotations[idx]) != len(words):
+        #     st.session_state.annotations[idx] = [0]*len(words)
 
         total = len(words)
         selected = sum(st.session_state.annotations[idx])
@@ -416,12 +416,13 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
                 global_idx = row_start + i
         
                 with col:
+                    # st.session_state.annotations[idx][global_idx] = 1 - value
                     value = st.session_state.annotations[idx][global_idx]
         
                     label = f"🔴 {word}" if value == 1 else word
         
                     if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
-                        st.session_state.annotations[idx][global_idx] = 1 - value
+                       st.session_state.annotations[idx][global_idx] = 1 - st.session_state.annotations[idx][global_idx]
     #     # WORD GRID (stable)
     #     for row_start in range(0, len(words), WORDS_PER_ROW):
 
