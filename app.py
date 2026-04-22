@@ -392,28 +392,28 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     
     for idx, item in enumerate(data):
 
-    words = item["words"]
-
-    if idx not in st.session_state.annotations:
-        st.session_state.annotations[idx] = [0]*len(words)
-
-    for row_start in range(0, len(words), WORDS_PER_ROW):
-
-        row_words = words[row_start:row_start+WORDS_PER_ROW]
-        cols = st.columns(len(row_words))
-
-        for i, (col, word) in enumerate(zip(cols, row_words)):
-            global_idx = row_start + i
-
-            with col:
-                key = f"{idx}_{global_idx}"
-
-                if key not in st.session_state:
-                    st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
-
-                checked = st.checkbox(word, key=key)
-
-                st.session_state.annotations[idx][global_idx] = int(checked)
+        words = item["words"]
+    
+        if idx not in st.session_state.annotations:
+            st.session_state.annotations[idx] = [0]*len(words)
+    
+        for row_start in range(0, len(words), WORDS_PER_ROW):
+    
+            row_words = words[row_start:row_start+WORDS_PER_ROW]
+            cols = st.columns(len(row_words))
+    
+            for i, (col, word) in enumerate(zip(cols, row_words)):
+                global_idx = row_start + i
+    
+                with col:
+                    key = f"{idx}_{global_idx}"
+    
+                    if key not in st.session_state:
+                        st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
+    
+                    checked = st.checkbox(word, key=key)
+    
+                    st.session_state.annotations[idx][global_idx] = int(checked)
 
     # WORDS_PER_ROW = 4
 
