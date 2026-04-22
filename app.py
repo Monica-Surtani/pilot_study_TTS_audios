@@ -384,44 +384,44 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # -------------------------------
     # UI
     # -------------------------------
-    WORDS_PER_ROW = 4
-
-    for row_start in range(0, len(words), WORDS_PER_ROW):
-    
-        row_words = words[row_start:row_start+WORDS_PER_ROW]
-        cols = st.columns(len(row_words))
-    
-        for i, (col, word) in enumerate(zip(cols, row_words)):
-            global_idx = row_start + i
-    
-            with col:
-                value = st.session_state.annotations[idx][global_idx]
-    
-                label = f"🔴 {word}" if value == 1 else word
-    
-                if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
-                    st.session_state.annotations[idx][global_idx] = 1 - value
     # WORDS_PER_ROW = 4
 
-    # for idx, item in enumerate(data):
 
-    #     words = item["words"]
+    WORDS_PER_ROW = 4
 
-    #     # Ensure correct length
-    #     if idx not in st.session_state.annotations:
-    #         st.session_state.annotations[idx] = [0]*len(words)
-    #     elif len(st.session_state.annotations[idx]) != len(words):
-    #         st.session_state.annotations[idx] = [0]*len(words)
+    for idx, item in enumerate(data):
 
-    #     total = len(words)
-    #     selected = sum(st.session_state.annotations[idx])
+        words = item["words"]
 
-    #     st.markdown(f"### Audio {idx+1} ({total} words)")
-    #     st.progress(selected / total)
+        # Ensure correct length
+        if idx not in st.session_state.annotations:
+            st.session_state.annotations[idx] = [0]*len(words)
+        elif len(st.session_state.annotations[idx]) != len(words):
+            st.session_state.annotations[idx] = [0]*len(words)
 
-    #     st.audio(item["audio_path"])
-    #     st.write("")
+        total = len(words)
+        selected = sum(st.session_state.annotations[idx])
 
+        st.markdown(f"### Audio {idx+1} ({total} words)")
+        st.progress(selected / total)
+
+        st.audio(item["audio_path"])
+        st.write("")
+        for row_start in range(0, len(words), WORDS_PER_ROW):
+        
+            row_words = words[row_start:row_start+WORDS_PER_ROW]
+            cols = st.columns(len(row_words))
+        
+            for i, (col, word) in enumerate(zip(cols, row_words)):
+                global_idx = row_start + i
+        
+                with col:
+                    value = st.session_state.annotations[idx][global_idx]
+        
+                    label = f"🔴 {word}" if value == 1 else word
+        
+                    if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
+                        st.session_state.annotations[idx][global_idx] = 1 - value
     #     # WORD GRID (stable)
     #     for row_start in range(0, len(words), WORDS_PER_ROW):
 
