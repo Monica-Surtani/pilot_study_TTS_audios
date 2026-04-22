@@ -14,7 +14,7 @@ def get_gsheet():
         ],
     )
     client = gspread.authorize(creds)
-    return client.open_by_key("PASTE_YOUR_SHEET_ID")
+    return client.open_by_key("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
 
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     sheet = get_gsheet().worksheet("participants")
