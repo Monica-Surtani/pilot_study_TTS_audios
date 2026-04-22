@@ -19,28 +19,63 @@ def get_gsheet():
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     sheet = get_gsheet().worksheet("participants")
     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
-
 def save_annotations():
     sheet = get_gsheet().worksheet("annotations")
+
+    # Get all existing data
+    data_all = sheet.get_all_values()
+
+    # Keep header
+    header = data_all[0]
+
+    # Filter out current user's old data
+    new_data = [header]
+
+    for row in data_all[1:]:
+        if row[0] != email:   # column 0 = email
+            new_data.append(row)
+
+    # Clear sheet and rewrite filtered data
+    sheet.clear()
+    sheet.append_rows(new_data)
+
+    # Now add fresh annotations
+    rows = []
 
     for audio_idx, labels in st.session_state.annotations.items():
         words = data[audio_idx]["words"]
 
-        rows = []
+        for word_idx, label in enumerate(labels):
+            rows.append([
+                email,
+                audio_idx,
+                word_idx,
+                words[word_idx],
+                label
+            ])
+
+    sheet.append_rows(rows)
+# def save_annotations():
+#     sheet = get_gsheet().worksheet("annotations")
+
+#     for audio_idx, labels in st.session_state.annotations.items():
+#         words = data[audio_idx]["words"]
+
+#         rows = []
         
-        for audio_idx, labels in st.session_state.annotations.items():
-            words = data[audio_idx]["words"]
+#         for audio_idx, labels in st.session_state.annotations.items():
+#             words = data[audio_idx]["words"]
         
-            for word_idx, label in enumerate(labels):
-                rows.append([
-                    email,
-                    audio_idx,
-                    word_idx,
-                    words[word_idx],
-                    label
-                ])
+#             for word_idx, label in enumerate(labels):
+#                 rows.append([
+#                     email,
+#                     audio_idx,
+#                     word_idx,
+#                     words[word_idx],
+#                     label
+#                 ])
         
-        sheet.append_rows(rows)
+#         sheet.append_rows(rows)
 
 
 # -------------------------------
