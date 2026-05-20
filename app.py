@@ -221,86 +221,168 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # -------------------------------
     data = [
     {
-        "audio_path": "audios/it will be done by one person.wav",
-        "words": "it will be done by one person".split()
+        "audio_path": "audios/you can also select left or right tank for the fuel supply.wav",
+        "words": "you can also select left or right tank for the fuel supply".split()
     },
     {
-        "audio_path": "audios/it is then statically stable in lateral mode but how does it generate.wav",
-        "words": "it is then statically stable in lateral mode but how does it generate".split()
+        "audio_path": "audios/either they have specified.wav",
+        "words": "either they have specified".split()
     },
     {
-        "audio_path": "audios/so do steady side slip maneuver you get.wav",
-        "words": "so do steady side slip maneuver you get".split()
+        "audio_path": "audios/then you will really get the juice of this fundamental understanding.wav",
+        "words": "then you will really get the juice of this fundamental understanding".split()
     },
     {
-        "audio_path": "audios/meeting half of the existing u.wav",
-        "words": "meeting half of the existing u".split()
+        "audio_path": "audios/so a single propeller if something happens what will happen.wav",
+        "words": "so a single propeller if something happens what will happen".split()
     },
     {
-        "audio_path": "audios/two point five percent of existing cropping area would.wav",
-        "words": "two point five percent of existing cropping area would".split()
+        "audio_path": "audios/i am just showing it for a short while.wav",
+        "words": "i am just showing it for a short while".split()
     },
     {
-        "audio_path": "audios/if you talk about micro algae to biodiesel.wav",
-        "words": "if you talk about micro algae to biodiesel".split()
+        "audio_path": "audios/and sometimes when we take care of there is a reduction in the voltage or increase in the voltage.wav",
+        "words": "and sometimes when we take care of there is a reduction in the voltage or increase in the voltage".split()
     },
     {
-        "audio_path": "audios/then this value is zero.wav",
-        "words": "then this value is zero".split()
+        "audio_path": "audios/now the inverter what it gets out will also be of the order of fifty volts or something.wav",
+        "words": "now the inverter what it gets out will also be of the order of fifty volts or something".split()
     },
     {
-        "audio_path": "audios/i am discussing the i s code recommendations because now i.wav",
-        "words": "i am discussing the i s code recommendations because now i".split()
+        "audio_path": "audios/it is unloading itself on the load.wav",
+        "words": "it is unloading itself on the load".split()
     },
     {
-        "audio_path": "audios/i will check the maximum settlement.wav",
-        "words": "i will check the maximum settlement".split()
+        "audio_path": "audios/there are few challenges.wav",
+        "words": "there are few challenges".split()
     },
     {
-        "audio_path": "audios/where as i want to interrupt fundamentally the current.wav",
-        "words": "where as i want to interrupt fundamentally the current".split()
+        "audio_path": "audios/so they are planted for the bio refinery or energy purposes.wav",
+        "words": "so they are planted for the bio refinery or energy purposes".split()
     },
     {
-        "audio_path": "audios/anything ultimately yields sinusoid.wav",
-        "words": "anything ultimately yields sinusoid".split()
+        "audio_path": "audios/it is not about the energy demand or energy requirement.wav",
+        "words": "it is not about the energy demand or energy requirement".split()
     },
     {
-        "audio_path": "audios/i will require less amount of current assuming that the.wav",
-        "words": "i will require less amount of current assuming that the".split()
+        "audio_path": "audios/because they can tell what is the best way to use this product.wav",
+        "words": "because they can tell what is the best way to use this product".split()
     },
     {
-        "audio_path": "audios/now we will be concentrating on the indicator electrode of course.wav",
-        "words": "now we will be concentrating on the indicator electrode of course".split()
+        "audio_path": "audios/then i am selling products of male utilities.wav",
+        "words": "then i am selling products of male utilities".split()
     },
     {
-        "audio_path": "audios/so now we are talking about the indicator electrode metal.wav",
-        "words": "so now we are talking about the indicator electrode metal".split()
+        "audio_path": "audios/so like if i am specialized in developing the overhead tanks.wav",
+        "words": "so like if i am specialized in developing the overhead tanks".split()
     },
     {
-        "audio_path": "audios/we are talking about the change in the potential.wav",
-        "words": "we are talking about the change in the potential".split()
+        "audio_path": "audios/so i will be developing the overhead tanks.wav",
+        "words": "so i will be developing the overhead tanks".split()
     },
     {
-        "audio_path": "audios/then you can produce sugar.wav",
-        "words": "then you can produce sugar".split()
+        "audio_path": "audios/so i will make highways.wav",
+        "words": "so i will make highways".split()
     },
     {
-        "audio_path": "audios/you have some kind of seasonal input input is available in a particular season.wav",
-        "words": "you have some kind of seasonal input input is available in a particular season".split()
+        "audio_path": "audios/because that decision you can take whether you want a fluorescent attachment or not.wav",
+        "words": "because that decision you can take whether you want a fluorescent attachment or not".split()
     },
     {
-        "audio_path": "audios/if i talk within a factory.wav",
-        "words": "if i talk within a factory".split()
+        "audio_path": "audios/we consider that life will cannot be positively oriented for somebody.wav",
+        "words": "we consider that life will cannot be positively oriented for somebody".split()
     },
     {
-        "audio_path": "audios/a stimulation is sustained then it is negative emotion.wav",
-        "words": "a stimulation is sustained then it is negative emotion".split()
+        "audio_path": "audios/this comes when you have a proper skeletal system which supports you.wav",
+        "words": "this comes when you have a proper skeletal system which supports you".split()
     },
     {
-        "audio_path": "audios/these are the three criterias.wav",
-        "words": "these are the three criterias".split()
+        "audio_path": "audios/so either i react this way or i will do the way i love.wav",
+        "words": "so either i react this way or i will do the way i love".split()
     }
 ]
+#     data = [
+#     {
+#         "audio_path": "audios/it will be done by one person.wav",
+#         "words": "it will be done by one person".split()
+#     },
+#     {
+#         "audio_path": "audios/it is then statically stable in lateral mode but how does it generate.wav",
+#         "words": "it is then statically stable in lateral mode but how does it generate".split()
+#     },
+#     {
+#         "audio_path": "audios/so do steady side slip maneuver you get.wav",
+#         "words": "so do steady side slip maneuver you get".split()
+#     },
+#     {
+#         "audio_path": "audios/meeting half of the existing u.wav",
+#         "words": "meeting half of the existing u".split()
+#     },
+#     {
+#         "audio_path": "audios/two point five percent of existing cropping area would.wav",
+#         "words": "two point five percent of existing cropping area would".split()
+#     },
+#     {
+#         "audio_path": "audios/if you talk about micro algae to biodiesel.wav",
+#         "words": "if you talk about micro algae to biodiesel".split()
+#     },
+#     {
+#         "audio_path": "audios/then this value is zero.wav",
+#         "words": "then this value is zero".split()
+#     },
+#     {
+#         "audio_path": "audios/i am discussing the i s code recommendations because now i.wav",
+#         "words": "i am discussing the i s code recommendations because now i".split()
+#     },
+#     {
+#         "audio_path": "audios/i will check the maximum settlement.wav",
+#         "words": "i will check the maximum settlement".split()
+#     },
+#     {
+#         "audio_path": "audios/where as i want to interrupt fundamentally the current.wav",
+#         "words": "where as i want to interrupt fundamentally the current".split()
+#     },
+#     {
+#         "audio_path": "audios/anything ultimately yields sinusoid.wav",
+#         "words": "anything ultimately yields sinusoid".split()
+#     },
+#     {
+#         "audio_path": "audios/i will require less amount of current assuming that the.wav",
+#         "words": "i will require less amount of current assuming that the".split()
+#     },
+#     {
+#         "audio_path": "audios/now we will be concentrating on the indicator electrode of course.wav",
+#         "words": "now we will be concentrating on the indicator electrode of course".split()
+#     },
+#     {
+#         "audio_path": "audios/so now we are talking about the indicator electrode metal.wav",
+#         "words": "so now we are talking about the indicator electrode metal".split()
+#     },
+#     {
+#         "audio_path": "audios/we are talking about the change in the potential.wav",
+#         "words": "we are talking about the change in the potential".split()
+#     },
+#     {
+#         "audio_path": "audios/then you can produce sugar.wav",
+#         "words": "then you can produce sugar".split()
+#     },
+#     {
+#         "audio_path": "audios/you have some kind of seasonal input input is available in a particular season.wav",
+#         "words": "you have some kind of seasonal input input is available in a particular season".split()
+#     },
+#     {
+#         "audio_path": "audios/if i talk within a factory.wav",
+#         "words": "if i talk within a factory".split()
+#     },
+#     {
+#         "audio_path": "audios/a stimulation is sustained then it is negative emotion.wav",
+#         "words": "a stimulation is sustained then it is negative emotion".split()
+#     },
+#     {
+#         "audio_path": "audios/these are the three criterias.wav",
+#         "words": "these are the three criterias".split()
+#     }
+# ]
 
     annotations_df = load_csv(
         ANNOTATION_FILE,
