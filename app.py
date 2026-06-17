@@ -142,111 +142,113 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # -------------------------------
     # Data
     # -------------------------------
-    data = [
-    {
-        "audio_path": "audios/you can also select left or right tank for the fuel supply.wav",
-        "words": "you can also select left or right tank for the fuel supply".split()
-    },
-    {
-        "audio_path": "audios/either they have specified.wav",
-        "words": "either they have specified".split()
-    },
-    {
-        "audio_path": "audios/then you will really get the juice of this fundamental understanding.wav",
-        "words": "then you will really get the juice of this fundamental understanding".split()
-    },
-    {
-        "audio_path": "audios/so a single propeller if something happens what will happen.wav",
-        "words": "so a single propeller if something happens what will happen".split()
-    },
-    {
-        "audio_path": "audios/i am just showing it for a short while.wav",
-        "words": "i am just showing it for a short while".split()
-    },
-    {
-        "audio_path": "audios/and sometimes when we take care of there is a reduction in the voltage or increase in the voltage.wav",
-        "words": "and sometimes when we take care of there is a reduction in the voltage or increase in the voltage".split()
-    },
-    {
-        "audio_path": "audios/now the inverter what it gets out will also be of the order of fifty volts or something.wav",
-        "words": "now the inverter what it gets out will also be of the order of fifty volts or something".split()
-    },
-    {
-        "audio_path": "audios/it is unloading itself on the load.wav",
-        "words": "it is unloading itself on the load".split()
-    },
-    {
-        "audio_path": "audios/there are few challenges.wav",
-        "words": "there are few challenges".split()
-    },
-    {
-        "audio_path": "audios/so they are planted for the bio refinery or energy purposes.wav",
-        "words": "so they are planted for the bio refinery or energy purposes".split()
-    },
-    {
-        "audio_path": "audios/it is not about the energy demand or energy requirement.wav",
-        "words": "it is not about the energy demand or energy requirement".split()
-    },
-    {
-        "audio_path": "audios/because they can tell what is the best way to use this product.wav",
-        "words": "because they can tell what is the best way to use this product".split()
-    },
-    {
-        "audio_path": "audios/then i am selling products of male utilities.wav",
-        "words": "then i am selling products of male utilities".split()
-    },
-    {
-        "audio_path": "audios/so like if i am specialized in developing the overhead tanks.wav",
-        "words": "so like if i am specialized in developing the overhead tanks".split()
-    },
-    {
-        "audio_path": "audios/so i will be developing the overhead tanks.wav",
-        "words": "so i will be developing the overhead tanks".split()
-    },
-    {
-        "audio_path": "audios/so i will make highways.wav",
-        "words": "so i will make highways".split()
-    },
-    {
-        "audio_path": "audios/because that decision you can take whether you want a fluorescent attachment or not.wav",
-        "words": "because that decision you can take whether you want a fluorescent attachment or not".split()
-    },
-    {
-        "audio_path": "audios/we consider that life will cannot be positively oriented for somebody.wav",
-        "words": "we consider that life will cannot be positively oriented for somebody".split()
-    },
-    {
-        "audio_path": "audios/this comes when you have a proper skeletal system which supports you.wav",
-        "words": "this comes when you have a proper skeletal system which supports you".split()
-    },
-    {
-        "audio_path": "audios/so either i react this way or i will do the way i love.wav",
-        "words": "so either i react this way or i will do the way i love".split()
-    }
+    data = [{'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_16_sprt1.wav', 'words': ['I', 'SAID', 'LET', 'NOT', 'LEAVE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_20_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_33_sprt1.wav', 'words': ['A', 'GLASS', 'OF', 'WINE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_34_sprt1.wav', 'words': ['A', 'BOTTLE', 'OF', 'WATER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_35_sprt1.wav', 'words': ['A', 'MUG', 'OF', 'TEA']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_36_sprt1.wav', 'words': ['WHERE', 'ARE', 'THEY', 'SITTING', 'IN', 'A', 'PARK']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_37_sprt1.wav', 'words': ['IN', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_38_sprt1.wav', 'words': ['AT', 'HOME']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_40_sprt1.wav', 'words': ['IN', 'THE', 'THEATRE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_41_sprt1.wav', 'words': ['ON', 'A', 'BENCH', 'IN', 'THE', 'PARK']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_43_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_45_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_46_sprt1.wav', 'words': ['IN', 'A', 'BOAT', 'ON', 'THE', 'RIVER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_49_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_50_sprt1.wav', 'words': ['IN', 'THE', 'CUPBOARD']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_52_sprt1.wav', 'words': ['A', 'SINGER', 'SINGING']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_53_sprt1.wav', 'words': ['A', "MAN'S", 'FINGER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_54_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_59_sprt1.wav', 'words': ['AN', 'ART', 'GALLERY']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_60_sprt1.wav', 'words': ["WHAT'S", 'IN', 'THE', 'PICTURE', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_64_sprt1.wav', 'words': ['A', 'PEN']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_78_sprt1.wav', 'words': ["WHAT'S", 'SHE', 'WEARING', "SHE'S", 'WEARING', 'A', 'LEATHER', 'JACKET', 'AND', 'CORDUROY', 'TROUSERS']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_29_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_30_sprt1.wav', 'words': ['THE', 'REBEL_N', 'LEADER', 'HAS', 'BEEN', 'ARRESTED']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_43_sprt1.wav', 'words': ['HAVE', 'YOU', 'MADE', 'ANY', 'PROGRESS_N', 'ON', 'YOUR', 'REPORT']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_49_sprt1.wav', 'words': ['THE', 'VILLAGE', 'LOOKS', 'QUITE', 'DESERTED']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_51_sprt1.wav', 'words': ['THE', 'POLICE', 'SUSPECT_V', 'A', 'CONSPIRACY']}]
+#     data = [
+#     {
+#         "audio_path": "audios/you can also select left or right tank for the fuel supply.wav",
+#         "words": "you can also select left or right tank for the fuel supply".split()
+#     },
+#     {
+#         "audio_path": "audios/either they have specified.wav",
+#         "words": "either they have specified".split()
+#     },
+#     {
+#         "audio_path": "audios/then you will really get the juice of this fundamental understanding.wav",
+#         "words": "then you will really get the juice of this fundamental understanding".split()
+#     },
+#     {
+#         "audio_path": "audios/so a single propeller if something happens what will happen.wav",
+#         "words": "so a single propeller if something happens what will happen".split()
+#     },
+#     {
+#         "audio_path": "audios/i am just showing it for a short while.wav",
+#         "words": "i am just showing it for a short while".split()
+#     },
+#     {
+#         "audio_path": "audios/and sometimes when we take care of there is a reduction in the voltage or increase in the voltage.wav",
+#         "words": "and sometimes when we take care of there is a reduction in the voltage or increase in the voltage".split()
+#     },
+#     {
+#         "audio_path": "audios/now the inverter what it gets out will also be of the order of fifty volts or something.wav",
+#         "words": "now the inverter what it gets out will also be of the order of fifty volts or something".split()
+#     },
+#     {
+#         "audio_path": "audios/it is unloading itself on the load.wav",
+#         "words": "it is unloading itself on the load".split()
+#     },
+#     {
+#         "audio_path": "audios/there are few challenges.wav",
+#         "words": "there are few challenges".split()
+#     },
+#     {
+#         "audio_path": "audios/so they are planted for the bio refinery or energy purposes.wav",
+#         "words": "so they are planted for the bio refinery or energy purposes".split()
+#     },
+#     {
+#         "audio_path": "audios/it is not about the energy demand or energy requirement.wav",
+#         "words": "it is not about the energy demand or energy requirement".split()
+#     },
+#     {
+#         "audio_path": "audios/because they can tell what is the best way to use this product.wav",
+#         "words": "because they can tell what is the best way to use this product".split()
+#     },
+#     {
+#         "audio_path": "audios/then i am selling products of male utilities.wav",
+#         "words": "then i am selling products of male utilities".split()
+#     },
+#     {
+#         "audio_path": "audios/so like if i am specialized in developing the overhead tanks.wav",
+#         "words": "so like if i am specialized in developing the overhead tanks".split()
+#     },
+#     {
+#         "audio_path": "audios/so i will be developing the overhead tanks.wav",
+#         "words": "so i will be developing the overhead tanks".split()
+#     },
+#     {
+#         "audio_path": "audios/so i will make highways.wav",
+#         "words": "so i will make highways".split()
+#     },
+#     {
+#         "audio_path": "audios/because that decision you can take whether you want a fluorescent attachment or not.wav",
+#         "words": "because that decision you can take whether you want a fluorescent attachment or not".split()
+#     },
+#     {
+#         "audio_path": "audios/we consider that life will cannot be positively oriented for somebody.wav",
+#         "words": "we consider that life will cannot be positively oriented for somebody".split()
+#     },
+#     {
+#         "audio_path": "audios/this comes when you have a proper skeletal system which supports you.wav",
+#         "words": "this comes when you have a proper skeletal system which supports you".split()
+#     },
+#     {
+#         "audio_path": "audios/so either i react this way or i will do the way i love.wav",
+#         "words": "so either i react this way or i will do the way i love".split()
+#     }
     
-]
-    ground_truth = {
-    0: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-    1: [0, 0, 0, 1],
-    2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    4: [0, 0, 0, 1, 0, 0, 0, 0, 0],
-    5: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    7: [0, 0, 0, 0, 0, 0, 1],
-    8: [0, 0, 0, 1],
-    9: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    10: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    11: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    12: [0, 0, 0, 0, 0, 0, 1, 0],
-    13: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    14: [0, 0, 0, 0, 0, 0, 0, 1],
-    15: [0, 0, 0, 0, 1],
-    16: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    17: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    18: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    19: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
-}
+# ]
+    ground_truth = {0: [0, 0, 1, 0, 1], 1: [0, 0, 1, 0, 1], 2: [0, 0, 1, 0, 1], 3: [0, 1, 0, 0, 1], 4: [0, 0, 1, 0, 1], 5: [0, 0, 0, 1], 6: [0, 0, 0, 1], 7: [0, 1, 0, 1], 8: [0, 0, 0, 1, 0, 0, 1], 9: [0, 0, 1], 10: [0, 1], 11: [0, 0, 1], 12: [0, 0, 1, 0, 0, 1], 13: [0, 0, 1, 0, 0, 1], 14: [0, 1, 1, 0, 0, 1], 15: [0, 0, 1, 0, 0, 1], 16: [1, 0, 0, 1, 0, 0, 1], 17: [0, 0, 1], 18: [0, 1, 1], 19: [0, 1, 0], 20: [0, 1, 0], 21: [0, 1, 0], 22: [0, 0, 0, 1, 0, 1], 23: [0, 1], 24: [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1], 25: [1, 0, 0], 26: [0, 1, 0, 0, 0], 27: [0, 0, 0, 1, 1, 0, 0, 0], 28: [0, 0, 0, 0, 1], 29: [0, 0, 0, 0, 1]}
+    # ground_truth = {
+#     0: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+#     1: [0, 0, 0, 1],
+#     2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+#     3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+#     4: [0, 0, 0, 1, 0, 0, 0, 0, 0],
+#     5: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+#     6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+#     7: [0, 0, 0, 0, 0, 0, 1],
+#     8: [0, 0, 0, 1],
+#     9: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+#     10: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     11: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+#     12: [0, 0, 0, 0, 0, 0, 1, 0],
+#     13: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+#     14: [0, 0, 0, 0, 0, 0, 0, 1],
+#     15: [0, 0, 0, 0, 1],
+#     16: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     17: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+#     18: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+#     19: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+# }
     def save_single_audio(audio_idx):
     
         sheet = get_gsheet().worksheet("annotations")
