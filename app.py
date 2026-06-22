@@ -511,19 +511,19 @@ if existing_user:
         # st.divider()
         if st.button(f"Save Audio {idx+1}", key=save_key):
 
-    try:
-
-        save_single_audio(idx)
-
-        st.session_state.saved_audios[idx] = True
-        st.session_state.revealed[idx] = True
-
-        st.success("Annotation saved!")
-
-    except Exception as e:
-
-        st.error(f"Save failed: {e}")
-
+            try:
+        
+                save_single_audio(idx)
+        
+                st.session_state.saved_audios[idx] = True
+                st.session_state.revealed[idx] = True
+        
+                st.success("Annotation saved!")
+        
+            except Exception as e:
+        
+                st.error(f"Save failed: {e}")
+        
 
     # # -------------------------------
     # # Submit
