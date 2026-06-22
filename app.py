@@ -368,6 +368,6 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # # -------------------------------
     # # Submit
     # # -------------------------------
-    # if st.button("Submit"):
-    #     save_annotations()
-    #     st.success("All annotations saved!")
+    if st.button("Submit"):
+        save_annotations()
+        st.success("All annotations saved!")
