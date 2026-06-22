@@ -524,41 +524,41 @@ if existing_user:
                 st.error(f"Save failed: {e}")
         
 
-st.write("Current directory:", os.getcwd())
-st.write("Files here:", os.listdir("."))
-if os.path.exists("audios"):
-    st.write(os.listdir("audios")[:10])
-else:
-    st.error("audios folder not found")
-all_files = sorted(os.listdir("audios"))
+# st.write("Current directory:", os.getcwd())
+# st.write("Files here:", os.listdir("."))
+# if os.path.exists("audios"):
+#     st.write(os.listdir("audios")[:10])
+# else:
+#     st.error("audios folder not found")
+# all_files = sorted(os.listdir("audios"))
 
-st.write(f"Total files: {len(all_files)}")
+# st.write(f"Total files: {len(all_files)}")
 
-for f in all_files[:50]:
-    st.write(f)
-matches = [f for f in os.listdir("audios") if "BLOCKD01_08" in f]
+# for f in all_files[:50]:
+#     st.write(f)
+# matches = [f for f in os.listdir("audios") if "BLOCKD01_08" in f]
 
-st.write(matches)
+# st.write(matches)
 
-audio_files = set(os.listdir("audios"))
+# audio_files = set(os.listdir("audios"))
 
-missing = []
+# missing = []
 
-for item in data:
-    filename = os.path.basename(item["audio_path"])
+# for item in data:
+#     filename = os.path.basename(item["audio_path"])
 
-    if filename not in audio_files:
-        missing.append(filename)
+#     if filename not in audio_files:
+#         missing.append(filename)
 
-st.write("Missing files:", len(missing))
-st.write(missing)
+# st.write("Missing files:", len(missing))
+# st.write(missing)
 
-target = "audios/ISLE_SESS0183_BLOCKD01_08_sprt1.wav"
+# target = "audios/ISLE_SESS0183_BLOCKD01_08_sprt1.wav"
 
-st.write(
-    target,
-    os.path.exists(target)
-)
+# st.write(
+#     target,
+#     os.path.exists(target)
+# )
 
     # # -------------------------------
     # # Submit
