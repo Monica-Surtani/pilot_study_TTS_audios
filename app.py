@@ -99,8 +99,8 @@ if email and not existing_user:
 
     if st.button("Register"):
         save_participant(name, email, gender, mother_tongue, native_place, proficiency)
-        participants_df = load_participants()
-        st.success("Registered successfully!")
+        st.success("Registered successfully! Loading your session...")
+        st.rerun()
 
 # -------------------------------
 # MAIN APP
@@ -179,11 +179,59 @@ if existing_user:
     # st.write("Missing files:", len(missing))
     # st.write(missing)
 
-    def show_ground_truth(audio_idx):
+    def show_feedback(audio_idx):
+        """
+        Compares the annotator's submitted labels to the ground truth
+        and shows per-word feedback so they can learn from mistakes.
+        """
         words = data[audio_idx]["words"]
         gt_labels = ground_truth[audio_idx]
-        gt_words = [word for word, label in zip(words, gt_labels) if label == 1]
-        st.success("Correct emphasized words: " + ", ".join(gt_words))
+        user_labels = st.session_state.annotations[audio_idx]
+
+        correct_words = []
+        missed_words = []      # ground truth says emphasized, user said not
+        extra_words = []       # user said emphasized, ground truth says not
+
+        word_feedback_html = []
+
+        for word, gt, user in zip(words, gt_labels, user_labels):
+            if gt == 1 and user == 1:
+                correct_words.append(word)
+                word_feedback_html.append(
+                    f"<span style='background-color:#c6f6c6;padding:3px 6px;"
+                    f"border-radius:4px;margin:2px;'>{word} ✅</span>"
+                )
+            elif gt == 1 and user == 0:
+                missed_words.append(word)
+                word_feedback_html.append(
+                    f"<span style='background-color:#ffe0b3;padding:3px 6px;"
+                    f"border-radius:4px;margin:2px;'>{word} ⚠️ missed</span>"
+                )
+            elif gt == 0 and user == 1:
+                extra_words.append(word)
+                word_feedback_html.append(
+                    f"<span style='background-color:#ffc6c6;padding:3px 6px;"
+                    f"border-radius:4px;margin:2px;'>{word} ❌ extra</span>"
+                )
+            else:
+                word_feedback_html.append(
+                    f"<span style='padding:3px 6px;margin:2px;'>{word}</span>"
+                )
+
+        n_words = len(words)
+        n_correct_total = sum(1 for g, u in zip(gt_labels, user_labels) if g == u)
+        accuracy = n_correct_total / n_words
+
+        st.markdown(" ".join(word_feedback_html), unsafe_allow_html=True)
+
+        if not missed_words and not extra_words:
+            st.success(f"Perfect! All emphasized words matched. (Accuracy: {accuracy:.0%})")
+        else:
+            st.info(f"Accuracy: {accuracy:.0%}")
+            if missed_words:
+                st.warning("You missed these emphasized words: " + ", ".join(missed_words))
+            if extra_words:
+                st.error("These were marked emphasized but shouldn't be: " + ", ".join(extra_words))
 
     # -------------------------------
     # UI
@@ -240,6 +288,6 @@ if existing_user:
                 st.error(f"Save failed: {e}")
 
         if st.session_state.revealed.get(idx, False):
-            show_ground_truth(idx)
+            show_feedback(idx)
 
         st.divider()
