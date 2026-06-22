@@ -530,14 +530,14 @@ if existing_user:
     # # -------------------------------
     if st.button("Submit"):
 
-    try:
-
-        save_annotations()
-
-        st.success(
-            "All annotations saved successfully!"
-        )
-
-    except Exception as e:
-
-        st.error(f"Submit failed: {e}")
+        try:
+    
+            save_annotations()
+    
+            st.success(
+                "All annotations saved successfully!"
+            )
+    
+        except Exception as e:
+    
+            st.error(f"Submit failed: {e}")
