@@ -527,15 +527,15 @@ if existing_user:
                 st.error(f"Save failed: {e}")
         
 
-# st.write("Current directory:", os.getcwd())
-# st.write("Files here:", os.listdir("."))
-# if os.path.exists("audios"):
-#     st.write(os.listdir("audios")[:10])
-# else:
-#     st.error("audios folder not found")
-# all_files = sorted(os.listdir("audios"))
+st.write("Current directory:", os.getcwd())
+st.write("Files here:", os.listdir("."))
+if os.path.exists("audios"):
+    st.write(os.listdir("audios")[:10])
+else:
+    st.error("audios folder not found")
+all_files = sorted(os.listdir("audios"))
 
-# st.write(f"Total files: {len(all_files)}")
+st.write(f"Total files: {len(all_files)}")
 
 # for f in all_files[:50]:
 #     st.write(f)
