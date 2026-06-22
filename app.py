@@ -371,32 +371,32 @@ if existing_user:
     # ])
     def save_single_audio(audio_idx):
 
-    sheet = get_gsheet().worksheet("annotations")
-
-    all_rows = sheet.get_all_values()
-
-    header = ["email", "audio_idx", "labels"]
-
-    filtered_rows = [header]
-
-    for row in all_rows[1:]:
-
-        if len(row) >= 2:
-
-            same_user = row[0] == email
-            same_audio = row[1] == str(audio_idx)
-
-            if not (same_user and same_audio):
-                filtered_rows.append(row)
-
-    filtered_rows.append([
-        email,
-        str(audio_idx),
-        str(st.session_state.annotations[audio_idx])
-    ])
-
-    sheet.clear()
-    sheet.append_rows(filtered_rows)
+        sheet = get_gsheet().worksheet("annotations")
+    
+        all_rows = sheet.get_all_values()
+    
+        header = ["email", "audio_idx", "labels"]
+    
+        filtered_rows = [header]
+    
+        for row in all_rows[1:]:
+    
+            if len(row) >= 2:
+    
+                same_user = row[0] == email
+                same_audio = row[1] == str(audio_idx)
+    
+                if not (same_user and same_audio):
+                    filtered_rows.append(row)
+    
+        filtered_rows.append([
+            email,
+            str(audio_idx),
+            str(st.session_state.annotations[audio_idx])
+        ])
+    
+        sheet.clear()
+        sheet.append_rows(filtered_rows)
     def show_ground_truth(audio_idx):
     
         words = data[audio_idx]["words"]
