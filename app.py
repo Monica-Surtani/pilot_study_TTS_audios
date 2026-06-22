@@ -15,18 +15,15 @@ def get_gsheet():
     client = gspread.authorize(creds)
     return client.open_by_key("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
 
-def save_participant(
-    name,
-    email,
-    gender,
-    mother_tongue,
-    native_place,
-    proficiency
-):
+def save_participant(name, email, gender,
+                     mother_tongue,
+                     native_place,
+                     proficiency):
 
     try:
-
         sheet = get_gsheet().worksheet("participants")
+
+        st.write("Worksheet found")
 
         sheet.append_row([
             email,
@@ -37,11 +34,11 @@ def save_participant(
             proficiency
         ])
 
-        st.success("Saved to Google Sheet")
+        st.write("Row appended")
 
     except Exception as e:
 
-        st.error(f"Google Sheet error: {e}")
+        st.error(f"SAVE ERROR: {e}")
 def save_annotations():
 
     sheet = get_gsheet().worksheet("annotations")
@@ -180,24 +177,25 @@ if email and not existing_user:
 
     if st.button("Register"):
 
-        try:
-    
-            save_participant(
-                name,
-                email,
-                gender,
-                mother_tongue,
-                native_place,
-                proficiency
-            )
-    
-            st.success("Registered successfully!")
-    
-            st.rerun()
-    
-        except Exception as e:
-    
-            st.error(str(e))
+    st.write("Before save")
+
+    save_participant(
+        name,
+        email,
+        gender,
+        mother_tongue,
+        native_place,
+        proficiency
+    )
+
+    st.write("After save")
+
+    participants_df = load_participants()
+
+    st.write("Participants loaded:")
+    st.dataframe(participants_df)
+
+    st.success("Registered successfully!")
 
 # -------------------------------
 # MAIN APP
