@@ -177,25 +177,25 @@ if email and not existing_user:
 
     if st.button("Register"):
 
-    st.write("Before save")
-
-    save_participant(
-        name,
-        email,
-        gender,
-        mother_tongue,
-        native_place,
-        proficiency
-    )
-
-    st.write("After save")
-
-    participants_df = load_participants()
-
-    st.write("Participants loaded:")
-    st.dataframe(participants_df)
-
-    st.success("Registered successfully!")
+        st.write("Before save")
+    
+        save_participant(
+            name,
+            email,
+            gender,
+            mother_tongue,
+            native_place,
+            proficiency
+        )
+    
+        st.write("After save")
+    
+        participants_df = load_participants()
+    
+        st.write("Participants loaded:")
+        st.dataframe(participants_df)
+    
+        st.success("Registered successfully!")
 
 # -------------------------------
 # MAIN APP
