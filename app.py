@@ -19,37 +19,65 @@ def get_gsheet():
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     sheet = get_gsheet().worksheet("participants")
     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+# def save_annotations():
+#     sheet = get_gsheet().worksheet("annotations")
+
+#     # Get existing data
+#     data_all = sheet.get_all_values()
+
+#     # Header
+#     header = ["email", "audio_idx", "labels"]
+
+#     # Keep rows from other users only
+#     new_data = [header]
+
+#     for row in data_all[1:]:
+#         if row[0] != email:
+#             new_data.append(row)
+
+#     # Clear and rewrite
+#     # sheet.clear()
+#     sheet.append_rows(new_data)
+
+#     # Add fresh data (ONLY per audio)
+#     rows = []
+
+#     for audio_idx, labels in st.session_state.annotations.items():
+#         rows.append([
+#             email,
+#             audio_idx,
+#             str(labels)   # store full list
+#         ])
+
+#     sheet.append_rows(rows)
 def save_annotations():
+
     sheet = get_gsheet().worksheet("annotations")
 
-    # Get existing data
-    data_all = sheet.get_all_values()
+    all_rows = sheet.get_all_values()
 
-    # Header
     header = ["email", "audio_idx", "labels"]
 
-    # Keep rows from other users only
-    new_data = [header]
+    filtered_rows = [header]
 
-    for row in data_all[1:]:
-        if row[0] != email:
-            new_data.append(row)
+    for row in all_rows[1:]:
 
-    # Clear and rewrite
-    sheet.clear()
-    sheet.append_rows(new_data)
+        if len(row) >= 2 and row[0] != email:
+            filtered_rows.append(row)
 
-    # Add fresh data (ONLY per audio)
-    rows = []
+    rows_to_add = []
 
     for audio_idx, labels in st.session_state.annotations.items():
-        rows.append([
+
+        rows_to_add.append([
             email,
-            audio_idx,
-            str(labels)   # store full list
+            str(audio_idx),
+            str(labels)
         ])
 
-    sheet.append_rows(rows)
+    sheet.clear()
+
+    sheet.append_rows(filtered_rows + rows_to_add)
 
 
 
@@ -81,50 +109,104 @@ st.title("Speech Emphasis Annotation Tool")
 # -------------------------------
 # Login
 # -------------------------------
+# -------------------------------
+# Login
+# -------------------------------
+
+def load_participants():
+
+    try:
+        sheet = get_gsheet().worksheet("participants")
+
+        data = sheet.get_all_records()
+
+        return pd.DataFrame(data)
+
+    except Exception as e:
+
+        st.error(f"Cannot load participants: {e}")
+
+        return pd.DataFrame(
+            columns=[
+                "email",
+                "name",
+                "gender",
+                "mother_tongue",
+                "native_place",
+                "proficiency"
+            ]
+        )
+
+
+participants_df = load_participants()
+
 email = st.text_input("Enter Email ID")
 
-participants_df = load_csv(
-    PARTICIPANT_FILE,
-    ["name","email","gender","mother_tongue","native_place","proficiency"]
-)
+existing_user = False
+
+if (
+    email
+    and not participants_df.empty
+    and "email" in participants_df.columns
+):
+    existing_user = (
+        email.strip().lower()
+        in participants_df["email"]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+            .values
+    )
 
 # -------------------------------
 # Registration
 # -------------------------------
-if email and email not in participants_df["email"].values:
+if email and not existing_user:
 
     st.header("Participant Details")
 
     name = st.text_input("Name")
-    gender = st.selectbox("Gender", ["Male","Female","Other","Prefer not to say"])
+
+    gender = st.selectbox(
+        "Gender",
+        ["Male", "Female", "Other", "Prefer not to say"]
+    )
+
     mother_tongue = st.text_input("Mother Tongue")
+
     native_place = st.text_input("Native Place")
+
     proficiency = st.selectbox(
         "English Proficiency",
-        ["Beginner","Intermediate","Advanced","Professional"]
+        [
+            "Beginner",
+            "Intermediate",
+            "Advanced",
+            "Professional"
+        ]
     )
 
     if st.button("Register"):
-    
-        save_participant(name, email, gender, mother_tongue, native_place, proficiency)
-    
-        st.session_state["logged_in"] = True
-        st.session_state["email"] = email
-    
-        st.success("Registered successfully!")
-        st.rerun()
-        # participants_df = pd.concat([participants_df, new], ignore_index=True)
-        # save_participant(name, email, gender, mother_tongue, native_place, proficiency)
-        # save_participant(name, email, gender, mother_tongue, native_place, proficiency)
 
-        st.success("Registered! Reloading...")
-        st.rerun()
+        save_participant(
+            name,
+            email,
+            gender,
+            mother_tongue,
+            native_place,
+            proficiency
+        )
+
+        st.success("Registered successfully!")
+
+        st.rerun() 
 
 # -------------------------------
 # MAIN APP
 # -------------------------------
-if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
-   (email and email in participants_df["email"].values):
+# if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
+#    (email and email in participants_df["email"].values):
+if existing_user:
 
     st.success("Welcome back!")
 
@@ -257,31 +339,64 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 #     18: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
 #     19: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
 # }
+    # def save_single_audio(audio_idx):
+    
+    #     sheet = get_gsheet().worksheet("annotations")
+    
+    #     data_all = sheet.get_all_values()
+    
+    #     header = ["email", "audio_idx", "labels"]
+    
+    #     new_data = [header]
+    
+    #     for row in data_all[1:]:
+    #         if not (
+    #             row[0] == email and
+    #             str(row[1]) == str(audio_idx)
+    #         ):
+    #             new_data.append(row)
+    
+    #     # sheet.clear()
+    #     # sheet.append_rows(new_data)
+    
+    #     # sheet.append_row([
+    #     #     email,
+    #     #     audio_idx,
+    #     #     str(st.session_state.annotations[audio_idx])
+    #     # ])
+    #    sheet.append_row([
+    #     email,
+    #     audio_idx,
+    #     str(st.session_state.annotations[audio_idx])
+    # ])
     def save_single_audio(audio_idx):
-    
-        sheet = get_gsheet().worksheet("annotations")
-    
-        data_all = sheet.get_all_values()
-    
-        header = ["email", "audio_idx", "labels"]
-    
-        new_data = [header]
-    
-        for row in data_all[1:]:
-            if not (
-                row[0] == email and
-                str(row[1]) == str(audio_idx)
-            ):
-                new_data.append(row)
-    
-        sheet.clear()
-        sheet.append_rows(new_data)
-    
-        sheet.append_row([
-            email,
-            audio_idx,
-            str(st.session_state.annotations[audio_idx])
-        ])
+
+    sheet = get_gsheet().worksheet("annotations")
+
+    all_rows = sheet.get_all_values()
+
+    header = ["email", "audio_idx", "labels"]
+
+    filtered_rows = [header]
+
+    for row in all_rows[1:]:
+
+        if len(row) >= 2:
+
+            same_user = row[0] == email
+            same_audio = row[1] == str(audio_idx)
+
+            if not (same_user and same_audio):
+                filtered_rows.append(row)
+
+    filtered_rows.append([
+        email,
+        str(audio_idx),
+        str(st.session_state.annotations[audio_idx])
+    ])
+
+    sheet.clear()
+    sheet.append_rows(filtered_rows)
     def show_ground_truth(audio_idx):
     
         words = data[audio_idx]["words"]
@@ -325,11 +440,32 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         # Header
         st.markdown(f"### Audio {idx+1} ({total} words)")
         st.progress(selected / total)
+        audio_file = item["audio_path"]
+
+        # st.write("Looking for:", audio_file)
+        # st.write("Exists:", os.path.exists(audio_file))
+        
+        # if os.path.exists(audio_file):
+        #     st.audio(audio_file)
+        # else:
+        #     st.error(f"Missing audio file: {audio_file}")
     
         # ✅ AUDIO MUST BE HERE
-        st.audio(item["audio_path"])
-    
-        st.write("")
+        # st.audio(item["audio_path"])
+        audio_path = os.path.join(
+            os.path.dirname(__file__),
+            item["audio_path"]
+        )
+        
+        if os.path.exists(audio_path):
+        
+            st.audio(audio_path)
+        
+        else:
+        
+            st.error(
+                f"Audio file missing: {audio_path}"
+            )
     
         # WORD GRID
         for row_start in range(0, len(words), WORDS_PER_ROW):
@@ -356,28 +492,52 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         # st.divider()
         save_key = f"save_audio_{idx}"
 
-        if st.button(
-                f"Save Audio {idx+1}",
-                key=save_key
-        ):
+        # if st.button(
+        #         f"Save Audio {idx+1}",
+        #         key=save_key
+        # ):
         
-            save_single_audio(idx)
+        #     save_single_audio(idx)
         
-            st.session_state.saved_audios[idx] = True
-            st.session_state.revealed[idx] = True
+        #     st.session_state.saved_audios[idx] = True
+        #     st.session_state.revealed[idx] = True
         
-            st.success("Annotation saved successfully!")
+        #     st.success("Annotation saved successfully!")
         
-        if st.session_state.revealed.get(idx, False):
+        # if st.session_state.revealed.get(idx, False):
         
-            show_ground_truth(idx)
+        #     show_ground_truth(idx)
         
-        st.divider()
+        # st.divider()
+        if st.button(f"Save Audio {idx+1}", key=save_key):
+
+    try:
+
+        save_single_audio(idx)
+
+        st.session_state.saved_audios[idx] = True
+        st.session_state.revealed[idx] = True
+
+        st.success("Annotation saved!")
+
+    except Exception as e:
+
+        st.error(f"Save failed: {e}")
 
 
     # # -------------------------------
     # # Submit
     # # -------------------------------
     if st.button("Submit"):
+
+    try:
+
         save_annotations()
-        st.success("All annotations saved!")
+
+        st.success(
+            "All annotations saved successfully!"
+        )
+
+    except Exception as e:
+
+        st.error(f"Submit failed: {e}")
