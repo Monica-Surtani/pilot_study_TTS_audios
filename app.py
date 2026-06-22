@@ -15,40 +15,33 @@ def get_gsheet():
     client = gspread.authorize(creds)
     return client.open_by_key("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
 
-def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
-    sheet = get_gsheet().worksheet("participants")
-    sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
-# def save_annotations():
-#     sheet = get_gsheet().worksheet("annotations")
+def save_participant(
+    name,
+    email,
+    gender,
+    mother_tongue,
+    native_place,
+    proficiency
+):
 
-#     # Get existing data
-#     data_all = sheet.get_all_values()
+    try:
 
-#     # Header
-#     header = ["email", "audio_idx", "labels"]
+        sheet = get_gsheet().worksheet("participants")
 
-#     # Keep rows from other users only
-#     new_data = [header]
+        sheet.append_row([
+            email,
+            name,
+            gender,
+            mother_tongue,
+            native_place,
+            proficiency
+        ])
 
-#     for row in data_all[1:]:
-#         if row[0] != email:
-#             new_data.append(row)
+        st.success("Saved to Google Sheet")
 
-#     # Clear and rewrite
-#     # sheet.clear()
-#     sheet.append_rows(new_data)
+    except Exception as e:
 
-#     # Add fresh data (ONLY per audio)
-#     rows = []
-
-#     for audio_idx, labels in st.session_state.annotations.items():
-#         rows.append([
-#             email,
-#             audio_idx,
-#             str(labels)   # store full list
-#         ])
-
-#     sheet.append_rows(rows)
+        st.error(f"Google Sheet error: {e}")
 def save_annotations():
 
     sheet = get_gsheet().worksheet("annotations")
@@ -187,18 +180,24 @@ if email and not existing_user:
 
     if st.button("Register"):
 
-        save_participant(
-            name,
-            email,
-            gender,
-            mother_tongue,
-            native_place,
-            proficiency
-        )
-
-        st.success("Registered successfully!")
-
-        st.rerun() 
+        try:
+    
+            save_participant(
+                name,
+                email,
+                gender,
+                mother_tongue,
+                native_place,
+                proficiency
+            )
+    
+            st.success("Registered successfully!")
+    
+            st.rerun()
+    
+        except Exception as e:
+    
+            st.error(str(e))
 
 # -------------------------------
 # MAIN APP
