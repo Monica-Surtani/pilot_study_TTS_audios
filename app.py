@@ -205,8 +205,8 @@ if email and not existing_user:
 if existing_user:
 
     st.success("Welcome back!")
-
-    # -------------------------------
+    st.success("ENTERED ANNOTATION PAGE")
+     # -------------------------------
     # Instructions
     # -------------------------------
     st.header("Instructions")
@@ -216,6 +216,10 @@ if existing_user:
     - Click a word → becomes **🔴 emphasized**  
     - Click again → revert  
     """)
+    data = [{'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_07_sprt1.wav', 'words': ['I', 'SAID', 'CLOTHES', 'NOT', 'BIOLOGICAL']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_11_sprt1.wav', 'words': ['I', 'SAID', 'PHRASE', 'NOT', 'BAR']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_12_sprt1.wav', 'words': ['I', 'SAID', 'GOT', 'NOT', 'GOAT']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_13_sprt1.wav', 'words': ['I', 'SAID', 'MEET', 'NOT', 'WATER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_14_sprt1.wav', 'words': ['I', 'SAID', 'CHEAP', 'NOT', 'OTHER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_15_sprt1.wav', 'words': ['I', 'SAID', 'THROUGH', 'NOT', 'TOUGH']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_21_sprt1.wav', 'words': ['I', 'SAID', 'HATE', 'NOT', 'TIN']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_57_sprt1.wav', 'words': ['I', 'THINK', "IT'S", 'EXTRAORDINARY']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_58_sprt1.wav', 'words': ['THAT', 'ADVERT', 'SHOULD', 'BE', 'BANNED']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_59_sprt1.wav', 'words': ['STAFF', 'MUST', 'RECORD', 'ALL', 'ACCIDENTS', 'IN', 'THE', 'BOOK']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKF_01_sprt1.wav', 'words': ['COULD', 'I', 'HAVE', 'CHICKEN', 'SOUP', 'AS', 'A', 'STARTER', 'AND', 'THEN', 'LAMB', 'CHOPS']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKG_07_sprt1.wav', 'words': ['I', 'WOULD', 'LIKE', 'TO', 'GO', 'TO', 'CHINA', 'FOR', 'A', 'COUPLE', 'OF', 'WEEKS']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_01_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_02_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_04_sprt1.wav', 'words': ['I', 'SAID', 'LATE', 'NOT', 'SITE']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_05_sprt1.wav', 'words': ['I', 'SAID', 'FIGHT', 'NOT', 'CENTRE']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_08_sprt1.wav', 'words': ['I', 'SAID', 'PUT', 'NOT', 'BLUE']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_19_sprt1.wav', 'words': ['I', 'SAID', 'PSYCHOLOGY', 'NOT', 'PNEUMATIC']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_20_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_23_sprt1.wav', 'words': ['I', 'SAID', 'SIXTHS', 'NOT', 'BIOLOGY']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_26_sprt1.wav', 'words': ['I', 'SAID', 'CALL', 'NOT', 'SHALL']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_27_sprt1.wav', 'words': ['I', 'SAID', "DON'T", 'NOT', 'SHOULDER']}, {'audio_path': 'audios/ISLE_SESS0184_BLOCKD01_28_sprt1.wav', 'words': ['I', 'SAID', 'WOULD', 'NOT', 'FILM']}]
+    st.write("Total audio items:", len(data))
+
+   
 
     # -------------------------------
     # Data
@@ -423,7 +427,7 @@ if existing_user:
 
     if "saved_audios" not in st.session_state:
         st.session_state.saved_audios = {}
-    
+    st.write("Loop started")
     for idx, item in enumerate(data):
     
         words = item["words"]
