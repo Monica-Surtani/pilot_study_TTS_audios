@@ -530,7 +530,14 @@ if os.path.exists("audios"):
     st.write(os.listdir("audios")[:10])
 else:
     st.error("audios folder not found")
+import os
 
+target = "audios/ISLE_SESS0183_BLOCKD01_08_sprt1.wav"
+
+st.write(
+    target,
+    os.path.exists(target)
+)
     # # -------------------------------
     # # Submit
     # # -------------------------------
