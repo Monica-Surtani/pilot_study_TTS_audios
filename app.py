@@ -298,8 +298,8 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     if "revealed" not in st.session_state:
         st.session_state.revealed = {}
 
-    if "saved_audios" not in st.session_state:
-        st.session_state.saved_audios = {}
+    if "saved_audio" not in st.session_state:
+        st.session_state.saved_audio = {}
     
     for idx, item in enumerate(data):
     
@@ -353,7 +353,7 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         
             save_single_audio(idx)
         
-            st.session_state.saved_audios[idx] = True
+            st.session_state.saved_audio[idx] = True
             st.session_state.revealed[idx] = True
         
             st.success("Annotation saved successfully!")
