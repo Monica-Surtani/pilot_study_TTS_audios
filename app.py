@@ -541,16 +541,16 @@ st.write(
     # # -------------------------------
     # # Submit
     # # -------------------------------
-    if st.button("Submit"):
+    # if st.button("Submit"):
 
-        try:
+    #     try:
     
-            save_annotations()
+    #         save_annotations()
     
-            st.success(
-                "All annotations saved successfully!"
-            )
+    #         st.success(
+    #             "All annotations saved successfully!"
+    #         )
     
-        except Exception as e:
+    #     except Exception as e:
     
-            st.error(f"Submit failed: {e}")
+    #         st.error(f"Submit failed: {e}")
