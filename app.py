@@ -4,7 +4,6 @@ import os
 import gspread
 from google.oauth2.service_account import Credentials
 
-
 def get_gsheet():
     creds = Credentials.from_service_account_info(
         st.secrets["gcp_service_account"],
@@ -524,6 +523,13 @@ if existing_user:
         
                 st.error(f"Save failed: {e}")
         
+
+st.write("Current directory:", os.getcwd())
+st.write("Files here:", os.listdir("."))
+if os.path.exists("audios"):
+    st.write(os.listdir("audios")[:10])
+else:
+    st.error("audios folder not found")
 
     # # -------------------------------
     # # Submit
