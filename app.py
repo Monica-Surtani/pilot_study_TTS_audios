@@ -20,9 +20,26 @@ try:
     st.write("Connected to:", sh.title)
 except Exception as e:
     st.error(f"Google Sheet connection failed: {e}")
-def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
-    sheet = get_gsheet().worksheet("participants")
-    sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+# def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
+#     sheet = get_gsheet().worksheet("participants")
+#     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+def save_participant(...):
+    try:
+        sheet = get_gsheet().worksheet("participants")
+
+        sheet.append_row([
+            email,
+            name,
+            gender,
+            mother_tongue,
+            native_place,
+            proficiency
+        ])
+
+        st.success("Participant row written")
+
+    except Exception as e:
+        st.error(f"save_participant failed: {e}")
 def save_annotations():
     sheet = get_gsheet().worksheet("annotations")
 
@@ -255,31 +272,35 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 #     18: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
 #     19: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
 # }
+    # def save_single_audio(audio_idx):
     def save_single_audio(audio_idx):
-    
-        sheet = get_gsheet().worksheet("annotations")
-    
-        data_all = sheet.get_all_values()
-    
-        header = ["email", "audio_idx", "labels"]
-    
-        new_data = [header]
-    
-        for row in data_all[1:]:
-            if not (
-                row[0] == email and
-                str(row[1]) == str(audio_idx)
-            ):
-                new_data.append(row)
-    
-        sheet.clear()
-        sheet.append_rows(new_data)
-    
-        sheet.append_row([
-            email,
-            audio_idx,
-            str(st.session_state.annotations[audio_idx])
-        ])
+        try:
+        
+            sheet = get_gsheet().worksheet("annotations")
+        
+            data_all = sheet.get_all_values()
+        
+            header = ["email", "audio_idx", "labels"]
+        
+            new_data = [header]
+        
+            for row in data_all[1:]:
+                if not (
+                    row[0] == email and
+                    str(row[1]) == str(audio_idx)
+                ):
+                    new_data.append(row)
+        
+            sheet.clear()
+            sheet.append_rows(new_data)
+        
+            sheet.append_row([
+                email,
+                audio_idx,
+                str(st.session_state.annotations[audio_idx])
+            ])
+        except Exception as e:
+            st.error(f"save_single_audio failed: {e}")            
     def show_ground_truth(audio_idx):
     
         words = data[audio_idx]["words"]
@@ -387,7 +408,23 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
             show_ground_truth(idx)
         
         st.divider()
+if st.button("Test Google Sheet"):
+    try:
+        sheet = get_gsheet().worksheet("participants")
 
+        sheet.append_row([
+            "test@test.com",
+            "TEST",
+            "TEST",
+            "TEST",
+            "TEST",
+            "TEST"
+        ])
+
+        st.success("Test row inserted!")
+
+    except Exception as e:
+        st.error(str(e))
 
     # # -------------------------------
     # # Submit
