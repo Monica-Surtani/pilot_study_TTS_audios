@@ -15,7 +15,11 @@ def get_gsheet():
     )
     client = gspread.authorize(creds)
     return client.open_by_key("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
-
+try:
+    sh = get_gsheet()
+    st.write("Connected to:", sh.title)
+except Exception as e:
+    st.error(f"Google Sheet connection failed: {e}")
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     sheet = get_gsheet().worksheet("participants")
     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
@@ -59,7 +63,11 @@ def save_annotations():
 
 ANNOTATION_FILE = "annotations.csv"
 PARTICIPANT_FILE = "participants.csv"
-
+try:
+    sh = get_gsheet()
+    st.write([ws.title for ws in sh.worksheets()])
+except Exception as e:
+    st.error(e)
 # -------------------------------
 # Helpers
 # -------------------------------
