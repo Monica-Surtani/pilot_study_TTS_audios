@@ -115,7 +115,7 @@ if email and email not in participants_df["email"].values:
         st.rerun()
         # participants_df = pd.concat([participants_df, new], ignore_index=True)
         # save_participant(name, email, gender, mother_tongue, native_place, proficiency)
-        # save_participant(name, email, gender, mother_tongue, native_place, proficiency)
+        save_participant(name, email, gender, mother_tongue, native_place, proficiency)
 
         st.success("Registered! Reloading...")
         st.rerun()
@@ -288,6 +288,21 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
             + ", ".join(gt_words)
         )
 
+    annotations_df = load_csv(
+        ANNOTATION_FILE,
+        ["email","audio_idx","labels"]
+    )
+
+    # -------------------------------
+    # Load previous annotations
+    # -------------------------------
+    if "annotations" not in st.session_state:
+        st.session_state.annotations = {}
+
+        user_data = annotations_df[annotations_df["email"] == email]
+
+        for _, row in user_data.iterrows():
+            st.session_state.annotations[row["audio_idx"]] = eval(row["labels"])
     # -------------------------------
     # UI
     # -------------------------------
