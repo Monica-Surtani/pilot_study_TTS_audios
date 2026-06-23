@@ -23,7 +23,7 @@ except Exception as e:
 # def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
 #     sheet = get_gsheet().worksheet("participants")
 #     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
-def save_participant(...):
+def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     try:
         sheet = get_gsheet().worksheet("participants")
 
