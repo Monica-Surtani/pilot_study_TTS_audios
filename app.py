@@ -409,23 +409,29 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
         
         st.divider()
 if st.button("Test Google Sheet"):
-    try:
-        sheet = get_gsheet().worksheet("participants")
+    sheet = get_gsheet().worksheet("participants")
 
-        sheet.append_row([
-            "test@test.com",
-            "TEST",
-            "TEST",
-            "TEST",
-            "TEST",
-            "TEST"
-        ])
+    sheet.append_row([
+        "test@test.com",
+        "TEST"
+    ])
 
-        st.success("Test row inserted!")
+    st.write("Rows now:", len(sheet.get_all_values()))
 
-    except Exception as e:
-        st.error(str(e))
+    st.write("Last row:", sheet.get_all_values()[-1])
+sh = get_gsheet()
 
+st.write("Spreadsheet title:", sh.title)
+st.write("Spreadsheet URL:", f"https://docs.google.com/spreadsheets/d/{sh.id}")
+if st.button("Test Google Sheet"):
+    sheet = get_gsheet().worksheet("participants")
+
+    sheet.append_row(["test@test.com", "TEST"])
+
+    rows = sheet.get_all_values()
+
+    st.write("Total rows:", len(rows))
+    st.write("Last row:", rows[-1])
     # # -------------------------------
     # # Submit
     # # -------------------------------
