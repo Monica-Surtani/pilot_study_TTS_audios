@@ -60,11 +60,11 @@ def save_annotations():
 
 ANNOTATION_FILE = "annotations.csv"
 PARTICIPANT_FILE = "participants.csv"
-try:
-    sh = get_gsheet()
-    st.write([ws.title for ws in sh.worksheets()])
-except Exception as e:
-    st.error(e)
+# try:
+#     sh = get_gsheet()
+#     st.write([ws.title for ws in sh.worksheets()])
+# except Exception as e:
+#     st.error(e)
 # -------------------------------
 # Helpers
 # -------------------------------
