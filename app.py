@@ -15,31 +15,11 @@ def get_gsheet():
     )
     client = gspread.authorize(creds)
     return client.open_by_key("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
-try:
-    sh = get_gsheet()
-    st.write("Connected to:", sh.title)
-except Exception as e:
-    st.error(f"Google Sheet connection failed: {e}")
-# def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
-#     sheet = get_gsheet().worksheet("participants")
-#     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
-    try:
-        sheet = get_gsheet().worksheet("participants")
+    sheet = get_gsheet().worksheet("participants")
+    sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
 
-        sheet.append_row([
-            email,
-            name,
-            gender,
-            mother_tongue,
-            native_place,
-            proficiency
-        ])
-
-        st.success("Participant row written")
-
-    except Exception as e:
-        st.error(f"save_participant failed: {e}")
 def save_annotations():
     sheet = get_gsheet().worksheet("annotations")
 
@@ -72,20 +52,7 @@ def save_annotations():
 
     sheet.append_rows(rows)
 
-if st.button("Debug Write", key="debug_write_1"):
-    sh = get_gsheet()
 
-    st.write("Spreadsheet title:", sh.title)
-    st.write("Spreadsheet ID:", sh.id)
-
-    sheet = sh.worksheet("participants")
-
-    sheet.append_row(["test@test.com", "TEST"])
-
-    rows = sheet.get_all_values()
-
-    st.write("Row count:", len(rows))
-    st.write("Last row:", rows[-1])
 
 # -------------------------------
 # Files
@@ -421,33 +388,10 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
             show_ground_truth(idx)
         
         st.divider()
-if st.button("Test Google Sheet"):
-    sheet = get_gsheet().worksheet("participants")
 
-    sheet.append_row([
-        "test@test.com",
-        "TEST"
-    ])
-
-    st.write("Rows now:", len(sheet.get_all_values()))
-
-    st.write("Last row:", sheet.get_all_values()[-1])
-sh = get_gsheet()
-
-st.write("Spreadsheet title:", sh.title)
-st.write("Spreadsheet URL:", f"https://docs.google.com/spreadsheets/d/{sh.id}")
-if st.button("Test Google Sheet"):
-    sheet = get_gsheet().worksheet("participants")
-
-    sheet.append_row(["test@test.com", "TEST"])
-
-    rows = sheet.get_all_values()
-
-    st.write("Total rows:", len(rows))
-    st.write("Last row:", rows[-1])
     # # -------------------------------
     # # Submit
     # # -------------------------------
-    if st.button("Submit"):
-        save_annotations()
-        st.success("All annotations saved!")
+    # if st.button("Submit"):
+    #     save_annotations()
+    #     st.success("All annotations saved!")
