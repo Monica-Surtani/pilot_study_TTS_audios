@@ -72,7 +72,20 @@ def save_annotations():
 
     sheet.append_rows(rows)
 
+if st.button("Debug Write", key="debug_write_1"):
+    sh = get_gsheet()
 
+    st.write("Spreadsheet title:", sh.title)
+    st.write("Spreadsheet ID:", sh.id)
+
+    sheet = sh.worksheet("participants")
+
+    sheet.append_row(["test@test.com", "TEST"])
+
+    rows = sheet.get_all_values()
+
+    st.write("Row count:", len(rows))
+    st.write("Last row:", rows[-1])
 
 # -------------------------------
 # Files
