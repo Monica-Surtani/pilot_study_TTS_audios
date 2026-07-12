@@ -7,6 +7,8 @@ import pandas as pd
 import streamlit as st
 from google.oauth2.service_account import Credentials
 
+st.set_page_config(page_title="Speech Emphasis Annotation Tool", layout="wide")
+
 APP_DIR = Path(__file__).resolve().parent
 WORDS_PER_ROW = 4
 GSheet_KEY = "1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc"
@@ -273,7 +275,9 @@ def main() -> None:
             ["name", "email", "gender", "mother_tongue", "native_place", "proficiency"],
         )
         annotations_df = load_csv(ANNOTATION_FILE, ["email", "audio_idx", "labels"])
+        st.caption("Storage mode: local CSV")
     else:
+        st.caption("Storage mode: Google Sheets")
         participants_sheet = book.worksheet("participants")
         annotations_sheet = book.worksheet("annotations")
 
