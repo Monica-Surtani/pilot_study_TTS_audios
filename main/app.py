@@ -19,7 +19,6 @@ def get_gsheet():
 def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
     sheet = get_gsheet().worksheet("participants")
     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
-
 def save_annotations():
     sheet = get_gsheet().worksheet("annotations")
 
@@ -51,20 +50,75 @@ def save_annotations():
         ])
 
     sheet.append_rows(rows)
+# def save_annotations():
+#     sheet = get_gsheet().worksheet("annotations")
 
+#     # Get all existing data
+#     data_all = sheet.get_all_values()
+
+#     # Keep header
+#     header = data_all[0]
+
+#     # Filter out current user's old data
+#     new_data = [header]
+
+#     for row in data_all[1:]:
+#         if row[0] != email:   # column 0 = email
+#             new_data.append(row)
+
+#     # Clear sheet and rewrite filtered data
+#     sheet.clear()
+#     sheet.append_rows(new_data)
+
+#     # Now add fresh annotations
+#     rows = []
+
+#     for audio_idx, labels in st.session_state.annotations.items():
+#         words = data[audio_idx]["words"]
+
+#         for word_idx, label in enumerate(labels):
+#             rows.append([
+#                 email,
+#                 audio_idx,
+#                 word_idx,
+#                 words[word_idx],
+#                 label
+#             ])
+
+#     sheet.append_rows(rows)
+# def save_annotations():
+#     sheet = get_gsheet().worksheet("annotations")
+
+#     for audio_idx, labels in st.session_state.annotations.items():
+#         words = data[audio_idx]["words"]
+
+#         rows = []
+        
+#         for audio_idx, labels in st.session_state.annotations.items():
+#             words = data[audio_idx]["words"]
+        
+#             for word_idx, label in enumerate(labels):
+#                 rows.append([
+#                     email,
+#                     audio_idx,
+#                     word_idx,
+#                     words[word_idx],
+#                     label
+#                 ])
+        
+#         sheet.append_rows(rows)
 
 
 # -------------------------------
 # Files
 # -------------------------------
+# BASE_DIR = "/home/monica/Documents/interspeech25/FastSpeech2/streamlit"
 
+# ANNOTATION_FILE = os.path.join(BASE_DIR, "annotations.csv")
+# PARTICIPANT_FILE = os.path.join(BASE_DIR, "participants.csv")
 ANNOTATION_FILE = "annotations.csv"
 PARTICIPANT_FILE = "participants.csv"
-# try:
-#     sh = get_gsheet()
-#     st.write([ws.title for ws in sh.worksheets()])
-# except Exception as e:
-#     st.error(e)
+
 # -------------------------------
 # Helpers
 # -------------------------------
@@ -108,7 +162,25 @@ if email and email not in participants_df["email"].values:
         "English Proficiency",
         ["Beginner","Intermediate","Advanced","Professional"]
     )
+    # if st.button("Register"):
+    
+    #     save_participant(name, email, gender, mother_tongue, native_place, proficiency)
+    
+    #     st.session_state["logged_in"] = True
+    #     st.session_state["email"] = email
+    
+    #     st.success("Registered successfully!")
+    #     st.rerun()
 
+    # if st.button("Register"):
+    #     new = pd.DataFrame([{
+    #         "name": name,
+    #         "email": email,
+    #         "gender": gender,
+    #         "mother_tongue": mother_tongue,
+    #         "native_place": native_place,
+    #         "proficiency": proficiency
+    #     }])
     if st.button("Register"):
     
         save_participant(name, email, gender, mother_tongue, native_place, proficiency)
@@ -147,19 +219,9 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
     # -------------------------------
     # Data
     # -------------------------------
-    data = [{'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_07_sprt1.wav', 'words': ['I', 'SAID', 'CLOTHES', 'NOT', 'BIOLOGICAL']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_11_sprt1.wav', 'words': ['I', 'SAID', 'PHRASE', 'NOT', 'BAR']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_12_sprt1.wav', 'words': ['I', 'SAID', 'GOT', 'NOT', 'GOAT']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_13_sprt1.wav', 'words': ['I', 'SAID', 'MEET', 'NOT', 'WATER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_14_sprt1.wav', 'words': ['I', 'SAID', 'CHEAP', 'NOT', 'OTHER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_15_sprt1.wav', 'words': ['I', 'SAID', 'THROUGH', 'NOT', 'TOUGH']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_21_sprt1.wav', 'words': ['I', 'SAID', 'HATE', 'NOT', 'TIN']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_57_sprt1.wav', 'words': ['I', 'THINK', "IT'S", 'EXTRAORDINARY']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_58_sprt1.wav', 'words': ['THAT', 'ADVERT', 'SHOULD', 'BE', 'BANNED']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_59_sprt1.wav', 'words': ['STAFF', 'MUST', 'RECORD', 'ALL', 'ACCIDENTS', 'IN', 'THE', 'BOOK']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKF_01_sprt1.wav', 'words': ['COULD', 'I', 'HAVE', 'CHICKEN', 'SOUP', 'AS', 'A', 'STARTER', 'AND', 'THEN', 'LAMB', 'CHOPS']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKG_07_sprt1.wav', 'words': ['I', 'WOULD', 'LIKE', 'TO', 'GO', 'TO', 'CHINA', 'FOR', 'A', 'COUPLE', 'OF', 'WEEKS']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_01_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_02_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_04_sprt1.wav', 'words': ['I', 'SAID', 'LATE', 'NOT', 'SITE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_05_sprt1.wav', 'words': ['I', 'SAID', 'FIGHT', 'NOT', 'CENTRE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_08_sprt1.wav', 'words': ['I', 'SAID', 'PUT', 'NOT', 'BLUE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_19_sprt1.wav', 'words': ['I', 'SAID', 'PSYCHOLOGY', 'NOT', 'PNEUMATIC']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_20_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_23_sprt1.wav', 'words': ['I', 'SAID', 'SIXTHS', 'NOT', 'BIOLOGY']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_26_sprt1.wav', 'words': ['I', 'SAID', 'CALL', 'NOT', 'SHALL']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_27_sprt1.wav', 'words': ['I', 'SAID', "DON'T", 'NOT', 'SHOULDER']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_28_sprt1.wav', 'words': ['I', 'SAID', 'WOULD', 'NOT', 'FILM']}]
-
-      ### [{'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'LET', 'NOT', 'LEAVE']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_07_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_11_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_12_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_13_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_14_sprt1.wav', 'words': ['A', 'GLASS', 'OF', 'WINE']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_15_sprt1.wav', 'words': ['A', 'BOTTLE', 'OF', 'WATER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_16_sprt1.wav', 'words': ['A', 'MUG', 'OF', 'TEA']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['WHERE', 'ARE', 'THEY', 'SITTING', 'IN', 'A', 'PARK']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['IN', 'A', 'PUB']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_20_sprt1.wav', 'words': ['AT', 'HOME']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_21_sprt1.wav', 'words': ['IN', 'THE', 'THEATRE']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_22_sprt1.wav', 'words': ['ON', 'A', 'BENCH', 'IN', 'THE', 'PARK']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_33_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_34_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_35_sprt1.wav', 'words': ['IN', 'A', 'BOAT', 'ON', 'THE', 'RIVER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_36_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_37_sprt1.wav', 'words': ['IN', 'THE', 'CUPBOARD']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_38_sprt1.wav', 'words': ['A', 'SINGER', 'SINGING']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_40_sprt1.wav', 'words': ['A', "MAN'S", 'FINGER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_41_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_43_sprt1.wav', 'words': ['AN', 'ART', 'GALLERY']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_45_sprt1.wav', 'words': ["WHAT'S", 'IN', 'THE', 'PICTURE', 'A', 'PUB']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_46_sprt1.wav', 'words': ['A', 'PEN']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_49_sprt1.wav', 'words': ["WHAT'S", 'SHE', 'WEARING', "SHE'S", 'WEARING', 'A', 'LEATHER', 'JACKET', 'AND', 'CORDUROY', 'TROUSERS']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_50_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_52_sprt1.wav', 'words': ['THE', 'REBEL', 'LEADER', 'HAS', 'BEEN', 'ARRESTED']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_53_sprt1.wav', 'words': ['HAVE', 'YOU', 'MADE', 'ANY', 'PROGRESS_N', 'ON', 'YOUR', 'REPORT']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_54_sprt1.wav', 'words': ['THE', 'VILLAGE', 'LOOKS', 'QUITE', 'DESERTED']}, {'audio_path': 'testing_audios/ISLE_SESS0183_BLOCKD01_59_sprt1.wav', 'words': ['THE', 'POLICE', 'SUSPECT', 'A', 'CONSPIRACY']}]
-   #8_07_26 [{'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_01_sprt1.wav', 'words': ['I', 'said', 'white', 'not', 'baits']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_02_sprt1.wav', 'words': ['I', 'said', 'new', 'not', 'no']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_31_sprt1.wav', 'words': ['What', 'is', 'she', 'drinking', 'a', 'cup', 'of', 'coffee']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_51_sprt1.wav', 'words': ['What', 'can', 'you', 'see', 'in', 'the', 'picture', 'a', 'ginger', 'biscuit']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_60_sprt1.wav', 'words': ["What's", 'in', 'the', 'picture', 'a', 'pub']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKD01_72_sprt1.wav', 'words': ['a', 'mouse']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKE_48_sprt1.wav', 'words': ['Children', 'often', 'rebel', 'against', 'their', 'parents']}, {'audio_path': 'audio/ISLE_SESS0003_BLOCKE_57_sprt1.wav', 'words': ['I', 'think', "he's", 'extraordinary']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKD01_38_sprt1.wav', 'words': ['at', 'home']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKD01_41_sprt1.wav', 'words': ['on', 'a', 'bench', 'in', 'the', 'park']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKD01_76_sprt1.wav', 'words': ['a', 'blouse']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_06_sprt1.wav', 'words': ['EU', 'nations', "don't", 'need', 'work', 'permits']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_24_sprt1.wav', 'words': ['the', 'area', 'become', 'a', 'desert']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_29_sprt1.wav', 'words': ["he's", 'a', 'photographer']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_31_sprt1.wav', 'words': ['the', 'project', 'has', 'provided', 'a', 'valuable', 'experience']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_32_sprt1.wav', 'words': ['he', 'takes', 'wonderful', 'but', 'strange', 'photographs']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_33_sprt1.wav', 'words': ['they', 'predict', 'a', 'close', 'contest', 'in', 'the', 'next', 'election']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_34_sprt1.wav', 'words': ['Students', 'stayed', 'a', 'protest', 'march', 'outside', 'parliament']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_37_sprt1.wav', 'words': ['Food', 'and', 'clothing', 'imports', 'are', 'rising']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_38_sprt1.wav', 'words': ['Export', 'orders', 'are', 'higher', 'than', 'last', 'year']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_39_sprt1.wav', 'words': ['She', 'expects', 'to', 'graduate', 'next', 'summer']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_40_sprt1.wav', 'words': ['They', 'will', 'have', 'to', 'transport', 'the', 'components', 'over', 'land']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_50_sprt1.wav', 'words': ['Businesses', 'must', 'export', 'to', 'survive']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_51_sprt1.wav', 'words': ['The', 'police', 'suspect', 'a', 'conspiracy']}, {'audio_path': 'audio/ISLE_SESS0040_BLOCKE_52_sprt1.wav', 'words': ['they', 'sell', 'fresh', 'farm', 'produce']}, {'audio_path': 'audio/ISLE_SESS0041_BLOCKD01_39_sprt1.wav', 'words': ['by', 'a', 'river']}, {'audio_path': 'audio/ISLE_SESS0041_BLOCKD01_40_sprt1.wav', 'words': ['in', 'the', 'theater']}, {'audio_path': 'audio/ISLE_SESS0041_BLOCKD01_53_sprt1.wav', 'words': ['a', "man's", 'finger']}, {'audio_path': 'audio/ISLE_SESS0041_BLOCKD01_55_sprt1.wav', 'words': ['what', 'is', 'this', 'buidling', 'a', 'power', 'station']}, {'audio_path': 'audio/ISLE_SESS0041_BLOCKE_04_sprt1.wav', 'words': ['they', 'wanted', 'to', 'protest', 'against', 'student', 'fees']}]
-      #7_07_26 [{'audio_path': 'audio/ISLE_SESS0137_BLOCKD02_01_2_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audio/ISLE_SESS0137_BLOCKD02_01_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audio/ISLE_SESS0137_BLOCKD02_02_2_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audio/ISLE_SESS0137_BLOCKD02_02_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audio/ISLE_SESS0137_BLOCKD02_03_2_sprt1.wav', 'words': ['I', 'SAID', 'BAD', 'NOT', 'BED']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKD01_43_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKD01_65_sprt1.wav', 'words': ['THREE', 'TREES']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKE_39_sprt1.wav', 'words': ['SHE', 'EXPECTS', 'TO', 'GRADUATE', 'NEXT', 'SUMMER']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKE_58_sprt1.wav', 'words': ['THAT', 'ADVERT', 'SHOULD', 'BE', 'BANNED']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKE_59_sprt1.wav', 'words': ['STAFF', 'MUST', 'RECORD', 'ALL', 'ACCIDENTS', 'IN', 'THE', 'BOOK']}, {'audio_path': 'audio/ISLE_SESS0162_BLOCKE_62_sprt1.wav', 'words': ['THEY', 'IGNORED', 'HIS', 'WARNINGS', 'ABOUT', 'THEIR', 'CONDUCT_N']}, {'audio_path': 'audio/ISLE_SESS0163_BLOCKD01_41_sprt1.wav', 'words': ['ON', 'A', 'BENCH', 'IN', 'THE', 'PARK']}, {'audio_path': 'audio/ISLE_SESS0163_BLOCKD01_42_sprt1.wav', 'words': ['OUTSIDE', 'A', 'PUP', 'BY', 'THE', 'RIVER']}, {'audio_path': 'audio/ISLE_SESS0163_BLOCKD01_45_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0163_BLOCKD01_47_sprt1.wav', 'words': ['WHERE', 'THE', 'CUP', 'ON', 'THE', 'EDGE', 'OF', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0163_BLOCKD01_54_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'audio/ISLE_SESS0164_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audio/ISLE_SESS0164_BLOCKD01_24_sprt1.wav', 'words': ['I', 'SAID', 'HAT', 'NOT', 'SURE']}, {'audio_path': 'audio/ISLE_SESS0164_BLOCKD01_25_sprt1.wav', 'words': ['I', 'SAID', 'SLEEP', 'NOT', 'HOPE']}, {'audio_path': 'audio/ISLE_SESS0164_BLOCKD01_33_sprt1.wav', 'words': ['A', 'GLASS', 'OF', 'WINE']}, {'audio_path': 'audio/ISLE_SESS0164_BLOCKE_29_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_05_sprt1.wav', 'words': ['I', 'SAID', 'FIGHT', 'NOT', 'CENTRE']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_09_sprt1.wav', 'words': ['I', 'SAID', 'LIVE', 'NOT', 'BED']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_25_sprt1.wav', 'words': ['I', 'SAID', 'SLEEP', 'NOT', 'HOPE']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_43_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_45_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKD01_51_sprt1.wav', 'words': ['WHAT', 'CAN', 'YOU', 'SEE', 'IN', 'THE', 'PICTURE', 'A', 'GINGER', 'BISCUIT']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKE_29_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKE_49_sprt1.wav', 'words': ['THE', 'VILLAGE', 'LOOKS', 'QUITE', 'DESERTED']}, {'audio_path': 'audio/ISLE_SESS0181_BLOCKE_57_sprt1.wav', 'words': ['I', 'THINK', "IT'S", 'EXTRAORDINARY']}]
-
-       # 29_06_26 [{'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_16_sprt1.wav', 'words': ['I', 'SAID', 'LET', 'NOT', 'LEAVE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_20_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_33_sprt1.wav', 'words': ['A', 'GLASS', 'OF', 'WINE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_34_sprt1.wav', 'words': ['A', 'BOTTLE', 'OF', 'WATER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_35_sprt1.wav', 'words': ['A', 'MUG', 'OF', 'TEA']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_36_sprt1.wav', 'words': ['WHERE', 'ARE', 'THEY', 'SITTING', 'IN', 'A', 'PARK']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_37_sprt1.wav', 'words': ['IN', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_38_sprt1.wav', 'words': ['AT', 'HOME']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_40_sprt1.wav', 'words': ['IN', 'THE', 'THEATRE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_41_sprt1.wav', 'words': ['ON', 'A', 'BENCH', 'IN', 'THE', 'PARK']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_43_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_45_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_46_sprt1.wav', 'words': ['IN', 'A', 'BOAT', 'ON', 'THE', 'RIVER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_49_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_50_sprt1.wav', 'words': ['IN', 'THE', 'CUPBOARD']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_52_sprt1.wav', 'words': ['A', 'SINGER', 'SINGING']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_53_sprt1.wav', 'words': ['A', "MAN'S", 'FINGER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_54_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_59_sprt1.wav', 'words': ['AN', 'ART', 'GALLERY']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_60_sprt1.wav', 'words': ["WHAT'S", 'IN', 'THE', 'PICTURE', 'A', 'PUB']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_64_sprt1.wav', 'words': ['A', 'PEN']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKD01_78_sprt1.wav', 'words': ["WHAT'S", 'SHE', 'WEARING', "SHE'S", 'WEARING', 'A', 'LEATHER', 'JACKET', 'AND', 'CORDUROY', 'TROUSERS']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_29_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_30_sprt1.wav', 'words': ['THE', 'REBEL_N', 'LEADER', 'HAS', 'BEEN', 'ARRESTED']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_43_sprt1.wav', 'words': ['HAVE', 'YOU', 'MADE', 'ANY', 'PROGRESS_N', 'ON', 'YOUR', 'REPORT']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_49_sprt1.wav', 'words': ['THE', 'VILLAGE', 'LOOKS', 'QUITE', 'DESERTED']}, {'audio_path': 'audios/ISLE_SESS0183_BLOCKE_51_sprt1.wav', 'words': ['THE', 'POLICE', 'SUSPECT_V', 'A', 'CONSPIRACY']}]  
-       # 25_6_26 [{'audio_path': 'audio/ISLE_SESS0192_BLOCKD01_78_sprt1.wav', 'words': ["WHAT'S", 'SHE', 'WEARING', "SHE'S", 'WEARING', 'A', 'LEATHER', 'JACKET', 'AND', 'CORDUROY', 'TROUSERS']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_01_sprt1.wav', 'words': ['THE', 'REFEREE', 'NEEDED', 'A', 'POLICE', 'ESCORT', 'AFTER', 'THE', 'MATCH']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_03_sprt1.wav', 'words': ['I', "WASN'T", 'PRESENT', 'AT', 'THE', 'LAST', 'MEETING']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_04_sprt1.wav', 'words': ['THEY', 'WANTED', 'TO', 'PROTEST', 'AGAINST', 'STUDENT', 'FEES']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_06_sprt1.wav', 'words': ['EU', 'NATIONALS', "DON'T", 'NEED', 'WORK', 'PERMITS']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_08_sprt1.wav', 'words': ['SINGERS', 'LEARN', 'HOW', 'TO', 'PROJECT', 'THEIR', 'VOICES']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_09_sprt1.wav', 'words': ['THE', 'PRIME', 'SUSPECT', 'IS', 'THE', 'DIRECTOR']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_10_sprt1.wav', 'words': ['I', 'AM', 'UNABLE', 'TO', 'ESTIMATE', 'THE', 'COST']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_11_sprt1.wav', 'words': ['THE', 'COMPANY', 'EXPECTS', 'TO', 'INCREASE', 'ITS', 'WORKFORCE', 'NEXT', 'YEAR']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_13_sprt1.wav', 'words': ['THE', 'COMMITTEE', 'WILL', 'CONDUCT', 'A', 'FULL', 'INVESTIGATION', 'INTO', 'HIS', 'BEHAVIOUR']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_14_sprt1.wav', 'words': ['OVER', 'THE', 'NEXT', 'TWO', 'WEEKS', 'EACH', 'PAIR', 'WILL', 'CONTEST_V', 'EIGHT', 'GAMES']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_15_sprt1.wav', 'words': ['THEY', 'SHOULD', 'SURVEY', 'ALL', 'STAFF', 'ON', 'THIS', 'QUESTION']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_16_sprt1.wav', 'words': ['WHAT', 'DO', 'YOU', 'THINK', 'OF', 'THIS', 'ADVERTISEMENT']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_18_sprt1.wav', 'words': ['WE', 'NEED', 'TO', 'PROGRESS', 'TO', 'A', 'HIGHER', 'LEVEL']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_20_sprt1.wav', 'words': ['THE', 'UK', 'IMPORTS', 'MOST', 'OF', 'ITS', 'FOOD']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_21_sprt1.wav', 'words': ['HE', "HADN'T", 'INTENDED', 'TO', 'INSULT', 'THE', 'POLICEMAN']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_24_sprt1.wav', 'words': ['THE', "AREA'S", 'BECOME', 'A', 'DESERT']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_29_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_30_sprt1.wav', 'words': ['THE', 'REBEL', 'LEADER', 'HAS', 'BEEN', 'ARRESTED']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_31_sprt1.wav', 'words': ['THE', 'PROJECT', 'HAS', 'PROVIDED', 'VALUABLE', 'EXPERIENCE']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_33_sprt1.wav', 'words': ['THEY', 'PREDICT', 'A', 'CLOSE', 'CONTEST', 'AT', 'THE', 'NEXT', 'ELECTION']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_38_sprt1.wav', 'words': ['EXPORT', 'ORDERS', 'ARE', 'HIGHER', 'THAN', 'LAST', 'YEAR']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_41_sprt1.wav', 'words': ['THERE', 'HAS', 'BEEN', 'AN', 'INCREASE', 'IN', 'GLOBAL', 'TEMPERATURES']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_42_sprt1.wav', 'words': ['THEY', 'HAD', 'TO', 'REJECT', 'HIS', 'PLAN']}, {'audio_path': 'audio/ISLE_SESS0192_BLOCKE_43_sprt1.wav', 'words': ['HAVE', 'YOU', 'MADE', 'ANY', 'PROGRESS', 'ON', 'YOUR', 'REPORT']}, {'audio_path': 'audio/ISLE_SESS0193_BLOCKD01_44_sprt1.wav', 'words': ['BESIDE', 'A', 'TREE', 'IN', 'A', 'PARK']}, {'audio_path': 'audio/ISLE_SESS0193_BLOCKD01_47_sprt1.wav', 'words': ['WHERE', 'IS', 'THE', 'CUP', 'ON', 'THE', 'EDGE', 'OF', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0193_BLOCKD01_48_sprt1.wav', 'words': ['IN', 'THE', 'MIDDLE', 'OF', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0193_BLOCKD01_49_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0193_BLOCKD01_51_sprt1.wav', 'words': ['WHAT', 'CAN', 'YOU', 'SEE', 'IN', 'THE', 'PICTURE', 'A', 'GINGER', 'BISCUIT']}]
-       #24_6_26[{'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_43_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_44_sprt1.wav', 'words': ['BESIDE', 'THE', 'TREE', 'IN', 'THE', 'PARK']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_45_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_46_sprt1.wav', 'words': ['IN', 'A', 'BOAT', 'ON', 'THE', 'RIVER']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_47_sprt1.wav', 'words': ['WHERE', 'IS', 'THE', 'CUP', 'IN', 'THE', 'MIDDLE', 'OF', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_48_sprt1.wav', 'words': ['ON', 'THE', 'EDGE', 'OF', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_49_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_50_sprt1.wav', 'words': ['IN', 'THE', 'CUPBOARD']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_51_sprt1.wav', 'words': ['WHAT', 'CAN', 'YOU', 'SEE', 'IN', 'THE', 'PICTURE', 'A', 'SINGER', 'SINGING']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_52_sprt1.wav', 'words': ['A', 'GINGER', 'BISCUIT']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_53_sprt1.wav', 'words': ['A', "MAN'S", 'FINGER']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_54_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_55_sprt1.wav', 'words': ['WHAT', 'IS', 'THIS', 'BUILDING', 'A', 'RAILWAY', 'STATION']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_56_sprt1.wav', 'words': ['A', 'POWER', 'STATION']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKD02_57_sprt1.wav', 'words': ['A', 'BUS', 'TERMINAL']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKE_03_sprt1.wav', 'words': ['I', "WASN'T", 'PRESENT', 'AT', 'THE', 'LAST', 'MEETING']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKE_04_sprt1.wav', 'words': ['THEY', 'WANTED', 'TO', 'PROTEST', 'AGAINST', 'STUDENT', 'FEES']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKE_09_sprt1.wav', 'words': ['THE', 'PRIME', 'SUSPECT', 'IS', 'DIRECTOR']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKE_13_sprt1.wav', 'words': ['THE', 'COMMITTEE', 'WILL', 'CONDUCT', 'A', 'FULL', 'INVESTIGATION', 'INTO', 'HIS', 'BEHAVIOUR']}, {'audio_path': 'audio/ISLE_SESS0131_BLOCKE_17_sprt1.wav', 'words': ['I', 'NEED', 'TO', 'TRANSFER', 'MONEY', 'FROM', 'MY', 'ACCOUNT']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_01_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_02_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_03_sprt1.wav', 'words': ['I', 'SAID', 'BAD', 'NOT', 'BED']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_04_sprt1.wav', 'words': ['I', 'SAID', 'LATE', 'NOT', 'SITE']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_05_sprt1.wav', 'words': ['I', 'SAID', 'FIGHT', 'NOT', 'CENTRE']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_07_sprt1.wav', 'words': ['I', 'SAID', 'CLOTHES', 'NOT', 'BIOLOGICAL']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_08_sprt1.wav', 'words': ['I', 'SAID', 'PATH', 'NOT', 'BLUE']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_09_sprt1.wav', 'words': ['I', 'SAID', 'LIVE', 'NOT', 'BED']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_10_sprt1.wav', 'words': ['I', 'SAID', 'ALONE', 'NOT', 'GONE']}, {'audio_path': 'audio/ISLE_SESS0132_BLOCKD02_13_sprt1.wav', 'words': ['I', 'SAID', 'MEET', 'NOT', 'WATER']}]
-       
-     
-       #22_6_26 [{'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_07_sprt1.wav', 'words': ['I', 'SAID', 'CLOTHES', 'NOT', 'BIOLOGICAL']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_11_sprt1.wav', 'words': ['I', 'SAID', 'PHRASE', 'NOT', 'BAR']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_12_sprt1.wav', 'words': ['I', 'SAID', 'GOT', 'NOT', 'GOAT']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_13_sprt1.wav', 'words': ['I', 'SAID', 'MEET', 'NOT', 'WATER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_14_sprt1.wav', 'words': ['I', 'SAID', 'CHEAP', 'NOT', 'OTHER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_15_sprt1.wav', 'words': ['I', 'SAID', 'THROUGH', 'NOT', 'TOUGH']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_21_sprt1.wav', 'words': ['I', 'SAID', 'HATE', 'NOT', 'TIN']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_57_sprt1.wav', 'words': ['I', 'THINK', "IT'S", 'EXTRAORDINARY']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_58_sprt1.wav', 'words': ['THAT', 'ADVERT', 'SHOULD', 'BE', 'BANNED']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKE_59_sprt1.wav', 'words': ['STAFF', 'MUST', 'RECORD', 'ALL', 'ACCIDENTS', 'IN', 'THE', 'BOOK']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKF_01_sprt1.wav', 'words': ['COULD', 'I', 'HAVE', 'CHICKEN', 'SOUP', 'AS', 'A', 'STARTER', 'AND', 'THEN', 'LAMB', 'CHOPS']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKG_07_sprt1.wav', 'words': ['I', 'WOULD', 'LIKE', 'TO', 'GO', 'TO', 'CHINA', 'FOR', 'A', 'COUPLE', 'OF', 'WEEKS']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_01_sprt1.wav', 'words': ['I', 'SAID', 'WHITE', 'NOT', 'BAIT']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_02_sprt1.wav', 'words': ['I', 'SAID', 'NEW', 'NOT', 'NO']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_04_sprt1.wav', 'words': ['I', 'SAID', 'LATE', 'NOT', 'SITE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_05_sprt1.wav', 'words': ['I', 'SAID', 'FIGHT', 'NOT', 'CENTRE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'SNOW', 'NOT', 'TOMORROW']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_08_sprt1.wav', 'words': ['I', 'SAID', 'PUT', 'NOT', 'BLUE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_17_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_18_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_19_sprt1.wav', 'words': ['I', 'SAID', 'PSYCHOLOGY', 'NOT', 'PNEUMATIC']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_20_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_22_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_23_sprt1.wav', 'words': ['I', 'SAID', 'SIXTHS', 'NOT', 'BIOLOGY']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_26_sprt1.wav', 'words': ['I', 'SAID', 'CALL', 'NOT', 'SHALL']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_27_sprt1.wav', 'words': ['I', 'SAID', "DON'T", 'NOT', 'SHOULDER']}, {'audio_path': 'audio/ISLE_SESS0184_BLOCKD01_28_sprt1.wav', 'words': ['I', 'SAID', 'WOULD', 'NOT', 'FILM']}]
-
+    data = [{'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_06_sprt1.wav', 'words': ['I', 'SAID', 'LET', 'NOT', 'LEAVE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_07_sprt1.wav', 'words': ['I', 'SAID', 'BOOK', 'NOT', 'DO']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_11_sprt1.wav', 'words': ['I', 'SAID', 'CLIMBING', 'NOT', 'CHEESE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_12_sprt1.wav', 'words': ['I', 'SAID', 'THIN', 'NOT', 'SHEEP']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_13_sprt1.wav', 'words': ['I', 'SAID', "WON'T", 'NOT', 'UDDER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_14_sprt1.wav', 'words': ['A', 'GLASS', 'OF', 'WINE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_15_sprt1.wav', 'words': ['A', 'BOTTLE', 'OF', 'WATER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_16_sprt1.wav', 'words': ['A', 'MUG', 'OF', 'TEA']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_17_sprt1.wav', 'words': ['WHERE', 'ARE', 'THEY', 'SITTING', 'IN', 'A', 'PARK']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_18_sprt1.wav', 'words': ['IN', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_20_sprt1.wav', 'words': ['AT', 'HOME']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_21_sprt1.wav', 'words': ['IN', 'THE', 'THEATRE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_22_sprt1.wav', 'words': ['ON', 'A', 'BENCH', 'IN', 'THE', 'PARK']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_33_sprt1.wav', 'words': ['IN', 'A', 'PARK', 'NEAR', 'A', 'PATH']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_34_sprt1.wav', 'words': ['BESIDE', 'THE', 'FIRE', 'IN', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_35_sprt1.wav', 'words': ['IN', 'A', 'BOAT', 'ON', 'THE', 'RIVER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_36_sprt1.wav', 'words': ['NEXT', 'TO', 'THE', 'JUG', 'ON', 'THE', 'TABLE']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_37_sprt1.wav', 'words': ['IN', 'THE', 'CUPBOARD']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_38_sprt1.wav', 'words': ['A', 'SINGER', 'SINGING']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_40_sprt1.wav', 'words': ['A', "MAN'S", 'FINGER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_41_sprt1.wav', 'words': ['A', 'BELL', 'RINGER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_43_sprt1.wav', 'words': ['AN', 'ART', 'GALLERY']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_45_sprt1.wav', 'words': ["WHAT'S", 'IN', 'THE', 'PICTURE', 'A', 'PUB']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_46_sprt1.wav', 'words': ['A', 'PEN']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_49_sprt1.wav', 'words': ["WHAT'S", 'SHE', 'WEARING', "SHE'S", 'WEARING', 'A', 'LEATHER', 'JACKET', 'AND', 'CORDUROY', 'TROUSERS']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_50_sprt1.wav', 'words': ["HE'S", 'A', 'PHOTOGRAPHER']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_52_sprt1.wav', 'words': ['THE', 'REBEL', 'LEADER', 'HAS', 'BEEN', 'ARRESTED']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_53_sprt1.wav', 'words': ['HAVE', 'YOU', 'MADE', 'ANY', 'PROGRESS_N', 'ON', 'YOUR', 'REPORT']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_54_sprt1.wav', 'words': ['THE', 'VILLAGE', 'LOOKS', 'QUITE', 'DESERTED']}, {'audio_path': 'audio/ISLE_SESS0183_BLOCKD01_59_sprt1.wav', 'words': ['THE', 'POLICE', 'SUSPECT', 'A', 'CONSPIRACY']}]
+#     data = [
+#     {
 #         "audio_path": "audios/you can also select left or right tank for the fuel supply.wav",
 #         "words": "you can also select left or right tank for the fuel supply".split()
 #     },
@@ -239,87 +301,89 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 #         "audio_path": "audios/so either i react this way or i will do the way i love.wav",
 #         "words": "so either i react this way or i will do the way i love".split()
 #     }
-    
 # ]
-    ground_truth = {0: [0, 0, 1, 0, 1], 1: [0, 0, 1, 0, 0], 2: [0, 0, 1, 0, 1], 3: [0, 0, 0, 0, 1], 4: [0, 0, 1, 0, 1], 5: [0, 0, 1, 0, 0], 6: [0, 0, 0, 0, 1], 7: [0, 0, 1, 0, 1], 8: [0, 0, 1, 0, 1], 9: [0, 0, 1, 0, 0], 10: [0, 0, 0, 1], 11: [1, 0, 0, 0, 0], 12: [0, 1, 0, 0, 0, 0, 0, 0], 13: [0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1], 14: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 15: [0, 0, 1, 0, 1], 16: [0, 0, 1, 0, 1], 17: [0, 0, 0, 0, 1], 18: [0, 0, 1, 0, 1], 19: [0, 0, 1, 0, 0], 20: [0, 0, 1, 0, 0], 21: [0, 0, 1, 0, 1], 22: [0, 0, 1, 0, 1], 23: [1, 0, 1, 0, 0], 24: [0, 0, 1, 0, 1], 25: [0, 1, 1, 0, 0], 26: [0, 0, 1, 0, 1], 27: [0, 0, 1, 0, 1], 28: [0, 0, 1, 0, 1], 29: [0, 0, 1, 1, 1]} # ground_truth = {
-
-       ####{0: [0, 0, 1, 0, 1], 1: [0, 0, 1, 0, 1], 2: [0, 0, 1, 0, 1], 3: [0, 1, 0, 0, 1], 4: [0, 0, 1, 0, 1], 5: [0, 0, 0, 1], 6: [0, 0, 0, 1], 7: [0, 1, 0, 1], 8: [0, 0, 0, 1, 0, 0, 1], 9: [0, 0, 1], 10: [0, 1], 11: [0, 0, 1], 12: [0, 0, 1, 0, 0, 1], 13: [0, 0, 1, 0, 0, 1], 14: [0, 1, 1, 0, 0, 1], 15: [0, 0, 1, 0, 0, 1], 16: [1, 0, 0, 1, 0, 0, 1], 17: [0, 0, 1], 18: [0, 1, 1], 19: [0, 1, 0], 20: [0, 1, 0], 21: [0, 1, 0], 22: [0, 0, 0, 1, 0, 1], 23: [0, 1], 24: [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1], 25: [1, 0, 0], 26: [0, 1, 0, 0, 0], 27: [0, 0, 0, 1, 1, 0, 0, 0], 28: [0, 0, 0, 0, 1], 29: [0, 0, 0, 0, 1]}
-       #8_07_26 {0: [0, 0, 1, 0, 0], 1: [0, 0, 1, 0, 1], 2: [0, 0, 0, 1, 0, 0, 0, 1], 3: [0, 0, 0, 0, 0, 0, 1, 0, 0, 1], 4: [1, 0, 0, 1, 0, 1], 5: [0, 1], 6: [1, 0, 1, 0, 0, 1], 7: [0, 1, 0, 0], 8: [0, 1], 9: [0, 0, 1, 0, 0, 1], 10: [0, 1], 11: [0, 1, 0, 0, 0, 1], 12: [0, 1, 0, 0, 1], 13: [0, 0, 1], 14: [0, 1, 0, 0, 0, 0, 1], 15: [0, 0, 1, 0, 1, 0], 16: [0, 0, 0, 1, 1, 0, 0, 0, 1], 17: [0, 1, 0, 0, 0, 0, 1], 18: [1, 0, 1, 1, 0, 0], 19: [1, 0, 0, 1, 0, 0, 0], 20: [0, 1, 0, 0, 1, 0], 21: [0, 0, 0, 0, 0, 0, 1, 0, 0], 22: [0, 1, 0, 0, 1], 23: [0, 1, 0, 0, 1], 24: [0, 1, 1, 0, 1], 25: [1, 0, 1], 26: [0, 0, 1], 27: [0, 1, 0], 28: [1, 0, 0, 1, 0, 1, 0], 29: [1, 0, 0, 1, 0, 0, 1]}
- 
-       #7_07_26 {0: [0, 1, 1, 0, 1], 1: [0, 0, 1, 0, 1], 2: [0, 1, 1, 0, 0], 3: [0, 0, 1, 0, 0], 4: [0, 1, 1, 0, 0], 5: [0, 0, 1, 0, 0, 1], 6: [0, 1], 7: [0, 1, 0, 0, 0, 1], 8: [0, 1, 0, 0, 0], 9: [1, 0, 0, 0, 1, 0, 0, 0], 10: [0, 1, 0, 1, 0, 0, 0], 11: [0, 0, 1, 0, 0, 1], 12: [0, 0, 1, 0, 0, 0], 13: [1, 0, 0, 0, 0, 1], 14: [0, 0, 1, 0, 0, 0, 0, 0, 1], 15: [0, 1, 0], 16: [0, 0, 1, 0, 1], 17: [0, 0, 1, 0, 0], 18: [0, 0, 1, 0, 0], 19: [0, 0, 0, 1], 20: [1, 0, 0], 21: [0, 0, 1, 0, 0], 22: [0, 0, 1, 0, 0], 23: [0, 0, 0, 0, 1], 24: [0, 0, 1, 0, 0, 1], 25: [0, 0, 0, 0, 0, 1], 26: [0, 0, 0, 0, 0, 1, 0, 0, 1], 27: [0, 0, 1], 28: [0, 1, 0, 0, 0], 29: [0, 1, 0, 1]}
-
-       #29_06_26 {0: [0, 0, 1, 0, 1], 1: [0, 0, 1, 0, 1], 2: [0, 0, 1, 0, 1], 3: [0, 1, 0, 0, 1], 4: [0, 0, 1, 0, 1], 5: [0, 0, 0, 1], 6: [0, 0, 0, 1], 7: [0, 1, 0, 1], 8: [0, 0, 0, 1, 0, 0, 1], 9: [0, 0, 1], 10: [0, 1], 11: [0, 0, 1], 12: [0, 0, 1, 0, 0, 1], 13: [0, 0, 1, 0, 0, 1], 14: [0, 1, 1, 0, 0, 1], 15: [0, 0, 1, 0, 0, 1], 16: [1, 0, 0, 1, 0, 0, 1], 17: [0, 0, 1], 18: [0, 1, 1], 19: [0, 1, 0], 20: [0, 1, 0], 21: [0, 1, 0], 22: [0, 0, 0, 1, 0, 1], 23: [0, 1], 24: [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1], 25: [1, 0, 0], 26: [0, 1, 0, 0, 0], 27: [0, 0, 0, 1, 1, 0, 0, 0], 28: [0, 0, 0, 0, 1], 29: [0, 0, 0, 0, 1]}
-
-       # 25_6_26 {0: [1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1], 1: [0, 1, 0, 0, 1, 1, 0, 0, 0], 2: [1, 1, 1, 0, 0, 1, 0], 3: [0, 1, 0, 1, 1, 0, 0], 4: [1, 1, 0, 0, 1, 1], 5: [1, 0, 0, 0, 1, 0, 1], 6: [0, 1, 1, 0, 0, 1], 7: [0, 0, 1, 0, 1, 0, 1], 8: [0, 0, 1, 0, 1, 0, 1, 0, 0], 9: [1, 1, 0, 0, 0, 1, 1, 0, 0, 1], 10: [1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1], 11: [1, 0, 0, 1, 1, 0, 0, 0], 12: [0, 0, 1, 0, 0, 0, 1], 13: [0, 0, 0, 1, 0, 0, 1, 1], 14: [0, 1, 1, 0, 0, 0, 1], 15: [1, 0, 1, 0, 0, 0, 1], 16: [1, 1, 0, 0, 1], 17: [1, 0, 1], 18: [0, 1, 0, 0, 0, 1], 19: [0, 1, 0, 1, 0, 1], 20: [0, 1, 0, 0, 0, 0, 0, 1, 1], 21: [1, 1, 0, 1, 0, 1, 0], 22: [0, 0, 0, 0, 1, 0, 0, 0], 23: [0, 0, 0, 1, 0, 0], 24: [0, 0, 0, 0, 1, 0, 0, 0], 25: [0, 0, 1, 0, 0, 1], 26: [0, 0, 0, 1, 0, 0, 0, 0, 0, 1], 27: [0, 0, 0, 0, 0, 1], 28: [0, 0, 0, 0, 0, 0, 1], 29: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0]}
-
-       #24_6_26{0: [0, 0, 1, 0, 0, 1], 1: [0, 0, 1, 0, 0, 1], 2: [1, 0, 0, 0, 0, 1], 3: [0, 0, 1, 0, 0, 1], 4: [0, 0, 0, 1, 0, 0, 0, 0, 0, 1], 5: [0, 0, 1, 0, 0, 1], 6: [0, 0, 0, 1, 0, 0, 1], 7: [0, 0, 1], 8: [0, 0, 0, 0, 0, 0, 1, 0, 0, 1], 9: [0, 0, 1], 10: [0, 1, 1], 11: [0, 1, 1], 12: [0, 0, 0, 1, 0, 1, 1], 13: [0, 1, 1], 14: [0, 1, 1], 15: [0, 0, 1, 0, 0, 0, 1], 16: [0, 0, 0, 1, 1, 0, 1], 17: [0, 1, 0, 0, 0, 1], 18: [0, 1, 0, 0, 0, 0, 1, 0, 0, 1], 19: [0, 0, 0, 1, 0, 0, 0, 1], 20: [0, 0, 1, 0, 1], 21: [0, 0, 1, 0, 0], 22: [0, 1, 1, 0, 0], 23: [0, 1, 1, 0, 1], 24: [0, 0, 1, 0, 1], 25: [0, 0, 1, 0, 1], 26: [0, 1, 1, 0, 0], 27: [0, 0, 1, 0, 0], 28: [0, 0, 1, 0, 1], 29: [0, 0, 1, 0, 1], 30: [0, 1, 1, 0, 0]}
-
-       #22_6_26 {0: [0, 0, 1, 0, 1], 1: [0, 0, 1, 0, 0], 2: [0, 0, 1, 0, 1], 3: [0, 0, 0, 0, 1], 4: [0, 0, 1, 0, 1], 5: [0, 0, 1, 0, 0], 6: [0, 0, 0, 0, 1], 7: [0, 0, 1, 0, 1], 8: [0, 0, 1, 0, 1], 9: [0, 0, 1, 0, 0], 10: [0, 0, 0, 1], 11: [1, 0, 0, 0, 0], 12: [0, 1, 0, 0, 0, 0, 0, 0], 13: [0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1], 14: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], 15: [0, 0, 1, 0, 1], 16: [0, 0, 1, 0, 1], 17: [0, 0, 0, 0, 1], 18: [0, 0, 1, 0, 1], 19: [0, 0, 1, 0, 0], 20: [0, 0, 1, 0, 0], 21: [0, 0, 1, 0, 1], 22: [0, 0, 1, 0, 1], 23: [1, 0, 1, 0, 0], 24: [0, 0, 1, 0, 1], 25: [0, 1, 1, 0, 0], 26: [0, 0, 1, 0, 1], 27: [0, 0, 1, 0, 1], 28: [0, 0, 1, 0, 1], 29: [0, 0, 1, 1, 1]} # ground_truth = {
-#     0: [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-#     1: [0, 0, 0, 1],
-#     2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-#     3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-#     4: [0, 0, 0, 1, 0, 0, 0, 0, 0],
-#     5: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-#     6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-#     7: [0, 0, 0, 0, 0, 0, 1],
-#     8: [0, 0, 0, 1],
-#     9: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-#     10: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     11: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-#     12: [0, 0, 0, 0, 0, 0, 1, 0],
-#     13: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-#     14: [0, 0, 0, 0, 0, 0, 0, 1],
-#     15: [0, 0, 0, 0, 1],
-#     16: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#     17: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-#     18: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-#     19: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
-# }
-    # def save_single_audio(audio_idx):
-    def save_single_audio(audio_idx):
-        try:
-        
-            sheet = get_gsheet().worksheet("annotations")
-        
-            data_all = sheet.get_all_values()
-        
-            header = ["email", "audio_idx", "labels"]
-        
-            new_data = [header]
-        
-            for row in data_all[1:]:
-                if not (
-                    row[0] == email and
-                    str(row[1]) == str(audio_idx)
-                ):
-                    new_data.append(row)
-        
-            sheet.clear()
-            sheet.append_rows(new_data)
-        
-            sheet.append_row([
-                email,
-                audio_idx,
-                str(st.session_state.annotations[audio_idx])
-            ])
-        except Exception as e:
-            st.error(f"save_single_audio failed: {e}")            
-    def show_ground_truth(audio_idx):
-    
-        words = data[audio_idx]["words"]
-        gt_labels = ground_truth[audio_idx]
-    
-        gt_words = [
-            word
-            for word, label in zip(words, gt_labels)
-            if label == 1
-        ]
-    
-        st.success(
-            "Correct emphasized words: "
-            + ", ".join(gt_words)
-        )
+#     data = [
+#     {
+#         "audio_path": "audios/it will be done by one person.wav",
+#         "words": "it will be done by one person".split()
+#     },
+#     {
+#         "audio_path": "audios/it is then statically stable in lateral mode but how does it generate.wav",
+#         "words": "it is then statically stable in lateral mode but how does it generate".split()
+#     },
+#     {
+#         "audio_path": "audios/so do steady side slip maneuver you get.wav",
+#         "words": "so do steady side slip maneuver you get".split()
+#     },
+#     {
+#         "audio_path": "audios/meeting half of the existing u.wav",
+#         "words": "meeting half of the existing u".split()
+#     },
+#     {
+#         "audio_path": "audios/two point five percent of existing cropping area would.wav",
+#         "words": "two point five percent of existing cropping area would".split()
+#     },
+#     {
+#         "audio_path": "audios/if you talk about micro algae to biodiesel.wav",
+#         "words": "if you talk about micro algae to biodiesel".split()
+#     },
+#     {
+#         "audio_path": "audios/then this value is zero.wav",
+#         "words": "then this value is zero".split()
+#     },
+#     {
+#         "audio_path": "audios/i am discussing the i s code recommendations because now i.wav",
+#         "words": "i am discussing the i s code recommendations because now i".split()
+#     },
+#     {
+#         "audio_path": "audios/i will check the maximum settlement.wav",
+#         "words": "i will check the maximum settlement".split()
+#     },
+#     {
+#         "audio_path": "audios/where as i want to interrupt fundamentally the current.wav",
+#         "words": "where as i want to interrupt fundamentally the current".split()
+#     },
+#     {
+#         "audio_path": "audios/anything ultimately yields sinusoid.wav",
+#         "words": "anything ultimately yields sinusoid".split()
+#     },
+#     {
+#         "audio_path": "audios/i will require less amount of current assuming that the.wav",
+#         "words": "i will require less amount of current assuming that the".split()
+#     },
+#     {
+#         "audio_path": "audios/now we will be concentrating on the indicator electrode of course.wav",
+#         "words": "now we will be concentrating on the indicator electrode of course".split()
+#     },
+#     {
+#         "audio_path": "audios/so now we are talking about the indicator electrode metal.wav",
+#         "words": "so now we are talking about the indicator electrode metal".split()
+#     },
+#     {
+#         "audio_path": "audios/we are talking about the change in the potential.wav",
+#         "words": "we are talking about the change in the potential".split()
+#     },
+#     {
+#         "audio_path": "audios/then you can produce sugar.wav",
+#         "words": "then you can produce sugar".split()
+#     },
+#     {
+#         "audio_path": "audios/you have some kind of seasonal input input is available in a particular season.wav",
+#         "words": "you have some kind of seasonal input input is available in a particular season".split()
+#     },
+#     {
+#         "audio_path": "audios/if i talk within a factory.wav",
+#         "words": "if i talk within a factory".split()
+#     },
+#     {
+#         "audio_path": "audios/a stimulation is sustained then it is negative emotion.wav",
+#         "words": "a stimulation is sustained then it is negative emotion".split()
+#     },
+#     {
+#         "audio_path": "audios/these are the three criterias.wav",
+#         "words": "these are the three criterias".split()
+#     }
+# ]
 
     annotations_df = load_csv(
         ANNOTATION_FILE,
@@ -336,19 +400,77 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
 
         for _, row in user_data.iterrows():
             st.session_state.annotations[row["audio_idx"]] = eval(row["labels"])
+
+    # -------------------------------
+    # Save function
+    # -------------------------------
+    # def save_annotations():
+    #     rows = []
+    #     for idx, labels in st.session_state.annotations.items():
+    #         rows.append({
+    #             "email": email,
+    #             "audio_idx": idx,
+    #             "labels": str(labels)
+    #         })
+
+    #     new_df = pd.DataFrame(rows)
+
+    #     global annotations_df
+    #     annotations_df = annotations_df[annotations_df["email"] != email]
+    #     annotations_df = pd.concat([annotations_df, new_df], ignore_index=True)
+
+    #     save_annotations()
+    # def get_gsheet():
+    # creds = Credentials.from_service_account_info(
+    #     st.secrets["gcp_service_account"],
+    #     scopes=[
+    #         "https://www.googleapis.com/auth/spreadsheets",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ],
+    # )
+    # client = gspread.authorize(creds)
+    # return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
+    # def get_gsheet():
+    #     creds = Credentials.from_service_account_info(
+    #         st.secrets["gcp_service_account"],
+    #         scopes=[
+    #             "https://www.googleapis.com/auth/spreadsheets",
+    #             "https://www.googleapis.com/auth/drive"
+    #         ],
+    #     )
+    
+    #     client = gspread.authorize(creds)
+    #     return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
+    
+    #     # client = gspread.authorize(creds)
+    #     # return client.open("1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc")
+
+    # def save_participant(name, email, gender, mother_tongue, native_place, proficiency):
+    #     sheet = get_gsheet().worksheet("participants")
+    #     sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
+    
+    # def save_annotations():
+    #     sheet = get_gsheet().worksheet("annotations")
+    
+    #     for audio_idx, labels in st.session_state.annotations.items():
+    #         words = data[audio_idx]["words"]
+    
+    #         for word_idx, label in enumerate(labels):
+    #             sheet.append_row([
+    #                 email,
+    #                 audio_idx,
+    #                 word_idx,
+    #                 words[word_idx],
+    #                 label
+    #             ])
+
     # -------------------------------
     # UI
     # -------------------------------
-
     WORDS_PER_ROW = 4
 
     if "annotations" not in st.session_state:
         st.session_state.annotations = {}
-    if "revealed" not in st.session_state:
-        st.session_state.revealed = {}
-
-    if "saved_audio" not in st.session_state:
-        st.session_state.saved_audio = {}
     
     for idx, item in enumerate(data):
     
@@ -392,30 +514,105 @@ if ("logged_in" in st.session_state and st.session_state["logged_in"]) or \
                     # Update annotation
                     st.session_state.annotations[idx][global_idx] = int(checked)
     
-        # st.divider()
-        save_key = f"save_audio_{idx}"
-
-        if st.button(
-                f"Save Audio {idx+1}",
-                key=save_key
-        ):
-        
-            save_single_audio(idx)
-        
-            st.session_state.saved_audio[idx] = True
-            st.session_state.revealed[idx] = True
-        
-            st.success("Annotation saved successfully!")
-        
-        if st.session_state.revealed.get(idx, False):
-        
-            show_ground_truth(idx)
-        
         st.divider()
+    # WORDS_PER_ROW = 4
+    
+    # if "annotations" not in st.session_state:
+    #     st.session_state.annotations = {}
+    
+    # for idx, item in enumerate(data):
 
-    # # -------------------------------
-    # # Submit
-    # # -------------------------------
-    # if st.button("Submit"):
-    #     save_annotations()
-    #     st.success("All annotations saved!")
+    #     words = item["words"]
+    
+    #     if idx not in st.session_state.annotations:
+    #         st.session_state.annotations[idx] = [0]*len(words)
+    
+    #     for row_start in range(0, len(words), WORDS_PER_ROW):
+    
+    #         row_words = words[row_start:row_start+WORDS_PER_ROW]
+    #         cols = st.columns(len(row_words))
+    
+    #         for i, (col, word) in enumerate(zip(cols, row_words)):
+    #             global_idx = row_start + i
+    
+    #             with col:
+    #                 key = f"{idx}_{global_idx}"
+    
+    #                 if key not in st.session_state:
+    #                     st.session_state[key] = bool(st.session_state.annotations[idx][global_idx])
+    
+    #                 checked = st.checkbox(word, key=key)
+    
+    #                 st.session_state.annotations[idx][global_idx] = int(checked)
+
+    # WORDS_PER_ROW = 4
+
+    # for idx, item in enumerate(data):
+
+    #     words = item["words"]
+
+    #     # Ensure correct length
+    #     if idx not in st.session_state.annotations:
+    #     #     st.session_state.annotations[idx] = [0]*len(words)
+    #     # elif len(st.session_state.annotations[idx]) != len(words):
+    #     #     st.session_state.annotations[idx] = [0]*len(words)
+
+    #     total = len(words)
+    #     selected = sum(st.session_state.annotations[idx])
+
+    #     st.markdown(f"### Audio {idx+1} ({total} words)")
+    #     st.progress(selected / total)
+
+    #     st.audio(item["audio_path"])
+    #     st.write("")
+    #     for row_start in range(0, len(words), WORDS_PER_ROW):
+        
+    #         row_words = words[row_start:row_start+WORDS_PER_ROW]
+    #         cols = st.columns(len(row_words))
+        
+    #         for i, (col, word) in enumerate(zip(cols, row_words)):
+    #             global_idx = row_start + i
+        
+    #             with col:
+    #                 # st.session_state.annotations[idx][global_idx] = 1 - value
+    #                 value = st.session_state.annotations[idx][global_idx]
+        
+    #                 label = f"🔴 {word}" if value == 1 else word
+        
+    #                 if st.button(label, key=f"{idx}_{global_idx}", use_container_width=True):
+    #                    st.session_state.annotations[idx][global_idx] = 1 - st.session_state.annotations[idx][global_idx]
+    #     # WORD GRID (stable)
+    #     for row_start in range(0, len(words), WORDS_PER_ROW):
+
+    #         row_words = words[row_start:row_start+WORDS_PER_ROW]
+    #         cols = st.columns(len(row_words))
+
+    #         for i, (col, word) in enumerate(zip(cols, row_words)):
+    #             global_idx = row_start + i
+
+    #             with col:
+
+    #                 value = st.session_state.annotations[idx][global_idx]
+
+    #                 label = f"🔴 {word}" if value == 1 else word
+    #                 if st.button(word, key=f"{idx}_{global_idx}", use_container_width=True):
+                    
+    #                     current = st.session_state.annotations[idx][global_idx]
+    #                     st.session_state.annotations[idx][global_idx] = 1 - current
+                    
+    #                 value = st.session_state.annotations[idx][global_idx]
+                    
+    #                 label = f"🔴 {word}" if value == 1 else word
+                    
+    #                 st.write(label)
+    #                     # save_annotations()
+    #                     # st.rerun()
+
+        # st.divider()
+
+    # -------------------------------
+    # Submit
+    # -------------------------------
+    if st.button("Submit"):
+        save_annotations()
+        st.success("All annotations saved!")
