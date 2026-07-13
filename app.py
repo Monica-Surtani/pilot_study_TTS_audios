@@ -80,19 +80,6 @@ GROUND_TRUTH = {
 }
 
 
-def load_csv(path: Path, columns: list[str]) -> pd.DataFrame:
-    if path.exists():
-        frame = pd.read_csv(path)
-        missing = set(columns) - set(frame.columns)
-        if not missing:
-            return frame
-    return pd.DataFrame(columns=columns)
-
-
-def save_csv(frame: pd.DataFrame, path: Path) -> None:
-    frame.to_csv(path, index=False)
-
-
 def ensure_session_state() -> None:
     if "annotations" not in st.session_state:
         st.session_state.annotations = {}
@@ -104,6 +91,7 @@ def ensure_session_state() -> None:
         st.session_state.logged_in = False
 
 
+@st.cache_resource(show_spinner=False)
 def get_gsheet():
     try:
         service_account = st.secrets["gcp_service_account"]
@@ -135,6 +123,9 @@ def reset_user_state() -> None:
 
 
 def load_annotations_for_user(email: str, annotations_df: pd.DataFrame) -> None:
+    if annotations_df.empty or "email" not in annotations_df.columns:
+        return
+
     user_data = annotations_df[annotations_df["email"] == email]
     for _, row in user_data.iterrows():
         try:
@@ -148,109 +139,44 @@ def save_participant_record(name: str, email: str, gender: str, mother_tongue: s
     email = normalize_email(email)
     sheet = get_gsheet()
     if sheet is None:
-        participants_df = load_csv(
-            PARTICIPANT_FILE,
-            ["name", "email", "gender", "mother_tongue", "native_place", "proficiency"],
-        )
-        participants_df["email"] = participants_df["email"].astype(str).str.strip().str.lower()
-        participants_df = participants_df[participants_df["email"] != email]
-        participants_df = pd.concat(
-            [
-                participants_df,
-                pd.DataFrame([
-                    {
-                        "name": name,
-                        "email": email,
-                        "gender": gender,
-                        "mother_tongue": mother_tongue,
-                        "native_place": native_place,
-                        "proficiency": proficiency,
-                    }
-                ]),
-            ],
-            ignore_index=True,
-        )
-        save_csv(participants_df, PARTICIPANT_FILE)
+        st.error("Google Sheets is not available. Add the Streamlit secrets for gcp_service_account.")
         return
 
     sheet = sheet.worksheet("participants")
-    existing_emails = [str(value).strip().lower() for value in sheet.col_values(2)[1:]]
+    existing_emails = [str(value).strip().lower() for value in sheet.col_values(1)[1:]]
     if email not in existing_emails:
         sheet.append_row([email, name, gender, mother_tongue, native_place, proficiency])
 
 
-def save_current_annotations(email: str) -> None:
-    email = normalize_email(email)
-    book = get_gsheet()
-    if book is None:
-        rows = []
-        for audio_idx, labels in st.session_state.annotations.items():
-            rows.append({"email": email, "audio_idx": int(audio_idx), "labels": str(labels)})
-
-        annotations_df = load_csv(ANNOTATION_FILE, ["email", "audio_idx", "labels"])
-        annotations_df = annotations_df[annotations_df["email"].astype(str).str.strip().str.lower() != email]
-        annotations_df = pd.concat([annotations_df, pd.DataFrame(rows)], ignore_index=True)
-        save_csv(annotations_df, ANNOTATION_FILE)
-        return
-
-    sheet = book.worksheet("annotations")
-    data_all = sheet.get_all_values()
-    new_data = [data_all[0] if data_all else ["email", "audio_idx", "labels"]]
-
-    for row in data_all[1:]:
-        if str(row[0]).strip().lower() != email:
-            new_data.append(row)
-
-    for audio_idx, labels in st.session_state.annotations.items():
-        new_data.append([email, int(audio_idx), str(labels)])
-
-    sheet.clear()
-    sheet.append_rows(new_data)
+def save_current_annotations(email: str, audio_idx: int) -> None:
+    """Persist only one audio row for the current user."""
+    autosave_current_audio(email, audio_idx)
 
 
 def autosave_current_audio(email: str, audio_idx: int) -> None:
     email = normalize_email(email)
     book = get_gsheet()
     if book is None:
-        annotations_df = load_csv(ANNOTATION_FILE, ["email", "audio_idx", "labels"])
-        annotations_df["email"] = annotations_df["email"].astype(str).str.strip().str.lower()
-        annotations_df = annotations_df[
-            ~(
-                (annotations_df["email"] == email)
-                & (annotations_df["audio_idx"].astype(str) == str(audio_idx))
-            )
-        ]
-
-        updated_row = pd.DataFrame([
-            {
-                "email": email,
-                "audio_idx": int(audio_idx),
-                "labels": str(st.session_state.annotations.get(audio_idx, [])),
-            }
-        ])
-        annotations_df = pd.concat([annotations_df, updated_row], ignore_index=True)
-        save_csv(annotations_df, ANNOTATION_FILE)
+        st.error("Google Sheets is not available. Add the Streamlit secrets for gcp_service_account.")
         return
 
     sheet = book.worksheet("annotations")
-    data_all = sheet.get_all_values()
-    new_data = [data_all[0] if data_all else ["email", "audio_idx", "labels"]]
+    labels = str(st.session_state.annotations.get(audio_idx, []))
+    records = sheet.get_all_records()
 
-    for row in data_all[1:]:
-        if not (
-            str(row[0]).strip().lower() == email
-            and str(row[1]) == str(audio_idx)
-        ):
-            new_data.append(row)
+    target_row = None
+    for row_number, row in enumerate(records, start=2):
+        if str(row.get("email", "")).strip().lower() == email and str(row.get("audio_idx", "")) == str(audio_idx):
+            target_row = row_number
+            break
 
-    new_data.append([
-        email,
-        int(audio_idx),
-        str(st.session_state.annotations.get(audio_idx, [])),
-    ])
-
-    sheet.clear()
-    sheet.append_rows(new_data)
+    if target_row is None:
+        sheet.append_row([email, int(audio_idx), labels])
+    else:
+        sheet.update(
+            f"A{target_row}:C{target_row}",
+            [[email, int(audio_idx), labels]],
+        )
 
 
 def show_ground_truth(audio_idx: int) -> None:
@@ -269,28 +195,23 @@ def main() -> None:
 
     book = get_gsheet()
     if book is None:
-        st.warning("Google Sheets secrets are missing. Using local CSV files for this session.")
-        participants_df = load_csv(
-            PARTICIPANT_FILE,
-            ["name", "email", "gender", "mother_tongue", "native_place", "proficiency"],
-        )
-        annotations_df = load_csv(ANNOTATION_FILE, ["email", "audio_idx", "labels"])
-        st.caption("Storage mode: local CSV")
-    else:
-        st.caption("Storage mode: Google Sheets")
-        participants_sheet = book.worksheet("participants")
-        annotations_sheet = book.worksheet("annotations")
+        st.error("Google Sheets secrets are missing. Add gcp_service_account to Streamlit secrets.")
+        st.stop()
 
-        participants_rows = participants_sheet.get_all_records()
-        annotations_rows = annotations_sheet.get_all_records()
+    st.caption("Storage mode: Google Sheets")
+    participants_sheet = book.worksheet("participants")
+    annotations_sheet = book.worksheet("annotations")
 
-        participants_df = pd.DataFrame(participants_rows)
-        annotations_df = pd.DataFrame(annotations_rows)
+    participants_rows = participants_sheet.get_all_records()
+    annotations_rows = annotations_sheet.get_all_records()
 
-        if participants_df.empty:
-            participants_df = pd.DataFrame(columns=["name", "email", "gender", "mother_tongue", "native_place", "proficiency"])
-        if annotations_df.empty:
-            annotations_df = pd.DataFrame(columns=["email", "audio_idx", "labels"])
+    participants_df = pd.DataFrame(participants_rows)
+    annotations_df = pd.DataFrame(annotations_rows)
+
+    if participants_df.empty:
+        participants_df = pd.DataFrame(columns=["name", "email", "gender", "mother_tongue", "native_place", "proficiency"])
+    if annotations_df.empty:
+        annotations_df = pd.DataFrame(columns=["email", "audio_idx", "labels"])
 
     email = normalize_email(st.text_input("Enter Email ID"))
 
@@ -364,10 +285,8 @@ def main() -> None:
                     checked = st.checkbox(word, key=checkbox_key)
                     st.session_state.annotations[idx][global_idx] = int(checked)
 
-        autosave_current_audio(current_email, idx)
-
         if st.button(f"Save Audio {idx + 1}", key=f"save_audio_{idx}"):
-            save_current_annotations(current_email)
+            save_current_annotations(current_email, idx)
             st.session_state.saved_audio[idx] = True
             st.session_state.revealed[idx] = True
             st.success("Annotation saved successfully!")
