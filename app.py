@@ -11,7 +11,7 @@ st.set_page_config(page_title="Speech Emphasis Annotation Tool", layout="wide")
 
 APP_DIR = Path(__file__).resolve().parent
 WORDS_PER_ROW = 4
-GSheet_KEY = "1MHM4Oo9tGsCSDr6UQNnx43P29qQ3bJ-LL-fAQGCa0Pc"
+GSheet_KEY = "1UIaeZu9y6RwlpifeZHWVEoVcf_EEjaParYD4dfncluw"
 
 DATA = [
     {"audio_path": "audio/ISLE_SESS0003_BLOCKD01_01_sprt1.wav", "words": ["I", "said", "white", "not", "baits"]},
